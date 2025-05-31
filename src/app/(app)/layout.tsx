@@ -56,10 +56,10 @@ export default function AppLayout({ children }: { children: ReactNode }) {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
                 <SidebarMenuItem>
-                  <SidebarMenuButton asChild tooltip="Ideate Trends">
+                  <SidebarMenuButton asChild tooltip="Explore Opportunities">
                     <Link href="/ideate-trends">
                       <Lightbulb />
-                      <span>Ideate Trends</span>
+                      <span>Explore Opportunities</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -92,7 +92,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
           <div className="flex flex-col sm:gap-4 md:pl-[var(--sidebar-width)] peer-data-[state=collapsed]:md:pl-[var(--sidebar-width-icon)]">
             <SidebarInset className="flex flex-1 flex-col bg-background shadow-sm md:rounded-xl">
               <AppHeader />
-              <main className="flex-1 overflow-auto p-4 sm:px-6 md:gap-8">
+              <main className="flex-1 overflow-auto px-4 pb-4 sm:px-6 md:gap-8">
                 {children}
               </main>
             </SidebarInset>
