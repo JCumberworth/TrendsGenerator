@@ -12,8 +12,8 @@ export default function DashboardPage() {
   const recentReports = mockReports.slice(0, 2);
 
   return (
-    <div className="container mx-auto py-8">
-      <h1 className="font-headline text-3xl font-bold mb-8 text-foreground">Dashboard</h1>
+    <div className="container mx-auto">
+      <h1 className="font-headline text-3xl font-bold my-8 text-foreground">Dashboard</h1>
       
       <section className="mb-12">
         <div className="flex justify-between items-center mb-6">
