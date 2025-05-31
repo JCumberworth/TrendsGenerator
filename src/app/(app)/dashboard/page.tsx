@@ -13,7 +13,7 @@ export default function DashboardPage() {
 
   return (
     <div className="container mx-auto">
-      <h1 className="font-headline text-3xl font-bold my-8 text-foreground">Business Dashboard</h1>
+      <h1 className="font-headline text-3xl font-bold mt-4 mb-8 text-foreground">Business Dashboard</h1>
       <p className="text-muted-foreground mb-10 -mt-6 max-w-2xl">Welcome! Get quick insights into key business trends and actionable monthly reports.</p>
       
       <section className="mb-12">
