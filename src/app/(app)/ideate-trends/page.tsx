@@ -173,19 +173,19 @@ export default function IdeateTrendsPage() {
               <Button
                 key={index}
                 variant="outline"
-                className="justify-start text-left h-auto py-3"
+                className="justify-start text-left h-auto py-3 whitespace-normal items-start"
                 onClick={() => handleAnalyzeIdea(idea)}
                 disabled={isAnalyzingIdea && selectedIdea === idea}
               >
                 {isAnalyzingIdea && selectedIdea === idea ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin shrink-0" />
-                    Analyzing...
+                    <span className="min-w-0">Analyzing...</span>
                   </>
                 ) : (
                   <>
                    <Zap className="mr-2 h-4 w-4 text-accent shrink-0" />
-                   {idea}
+                   <span className="min-w-0">{idea}</span>
                   </>
                 )}
               </Button>
