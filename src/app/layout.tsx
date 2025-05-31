@@ -4,8 +4,8 @@ import { Toaster }
 from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
-  title: 'TrendWatch AI',
-  description: 'AI-Powered Trend Identification',
+  title: 'TrendWatch AI for Business',
+  description: 'Actionable AI-Powered Trend Insights for Business Leaders',
 };
 
 export default function RootLayout({

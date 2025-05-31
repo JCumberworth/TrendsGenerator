@@ -4,24 +4,24 @@ import { SidebarTrigger } from "@/components/ui/sidebar";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Moon, Sun } from "lucide-react";
-import { useTheme } from "next-themes"; // Assuming next-themes is or will be installed. If not, this needs adjustment or removal.
+import { useTheme } from "next-themes";
 
 // Helper function to derive a user-friendly title from the pathname
 const getTitleFromPathname = (pathname: string): string => {
-  if (pathname === "/dashboard") return "Dashboard";
-  if (pathname === "/trends") return "Trending Topics";
-  if (pathname === "/reports") return "Monthly Reports";
+  if (pathname === "/dashboard") return "Business Dashboard";
+  if (pathname === "/trends") return "Key Business Trends";
+  if (pathname === "/reports") return "Monthly Trend Reports";
   if (pathname.startsWith("/reports/")) {
-    // Potentially fetch report title here if needed, or use a generic one
     return "Report Details";
   }
+  if (pathname === "/ideate-trends") return "Explore Opportunities";
   return "TrendWatch AI"; // Default title
 };
 
 export function AppHeader() {
   const pathname = usePathname();
   const pageTitle = getTitleFromPathname(pathname);
-  const { setTheme, theme } = useTheme ? useTheme() : { setTheme: () => {}, theme: 'light' }; // Graceful degradation if useTheme is not available
+  const { setTheme, theme } = useTheme ? useTheme() : { setTheme: () => {}, theme: 'light' };
 
   return (
     <header className="sticky top-0 z-30 flex h-16 items-center justify-between gap-4 border-b bg-background/80 px-4 backdrop-blur-md md:px-6">
@@ -31,7 +31,7 @@ export function AppHeader() {
           {pageTitle}
         </h1>
       </div>
-      {useTheme && ( // Conditionally render theme toggle if next-themes is available
+      {useTheme && (
         <Button
           variant="ghost"
           size="icon"

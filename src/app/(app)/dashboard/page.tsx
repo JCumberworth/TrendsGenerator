@@ -13,11 +13,12 @@ export default function DashboardPage() {
 
   return (
     <div className="container mx-auto">
-      <h1 className="font-headline text-3xl font-bold my-8 text-foreground">Dashboard</h1>
+      <h1 className="font-headline text-3xl font-bold my-8 text-foreground">Business Dashboard</h1>
+      <p className="text-muted-foreground mb-10 -mt-6 max-w-2xl">Welcome! Get quick insights into key business trends and actionable monthly reports.</p>
       
       <section className="mb-12">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="font-headline text-2xl font-semibold text-foreground">Latest Trends</h2>
+          <h2 className="font-headline text-2xl font-semibold text-foreground">Key Business Trends</h2>
           <Button variant="outline" asChild>
             <Link href="/trends">View All Trends <ChevronRight className="ml-2 h-4 w-4" /></Link>
           </Button>
@@ -29,13 +30,13 @@ export default function DashboardPage() {
             ))}
           </div>
         ) : (
-          <p className="text-muted-foreground">No trends available yet.</p>
+          <p className="text-muted-foreground">No key trends available yet.</p>
         )}
       </section>
 
       <section>
         <div className="flex justify-between items-center mb-6">
-          <h2 className="font-headline text-2xl font-semibold text-foreground">Recent Reports</h2>
+          <h2 className="font-headline text-2xl font-semibold text-foreground">Recent Trend Reports</h2>
           <Button variant="outline" asChild>
             <Link href="/reports">View All Reports <ChevronRight className="ml-2 h-4 w-4" /></Link>
           </Button>

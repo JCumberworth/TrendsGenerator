@@ -13,12 +13,12 @@ import { useToast } from "@/hooks/use-toast";
 
 export default function IdeateTrendsPage() {
   const [topicKeyword, setTopicKeyword] = useState<string>('');
-  const [potentialTrends, setPotentialTrends] = useState<string[]>([]);
-  const [selectedTrend, setSelectedTrend] = useState<string | null>(null);
+  const [potentialBusinessIdeas, setPotentialBusinessIdeas] = useState<string[]>([]);
+  const [selectedIdea, setSelectedIdea] = useState<string | null>(null);
   const [analysisResult, setAnalysisResult] = useState<string | null>(null);
   
   const [isGeneratingIdeas, setIsGeneratingIdeas] = useState<boolean>(false);
-  const [isAnalyzingTrend, setIsAnalyzingTrend] = useState<boolean>(false);
+  const [isAnalyzingIdea, setIsAnalyzingIdea] = useState<boolean>(false);
   
   const [ideasError, setIdeasError] = useState<string | null>(null);
   const [analysisError, setAnalysisError] = useState<string | null>(null);
@@ -28,18 +28,18 @@ export default function IdeateTrendsPage() {
   const handleGenerateIdeas = async (e: FormEvent) => {
     e.preventDefault();
     if (!topicKeyword.trim() || topicKeyword.trim().length < 3) {
-      setIdeasError("Please enter a topic keyword (minimum 3 characters).");
+      setIdeasError("Please enter a topic or business area (minimum 3 characters).");
       toast({
         title: "Input Error",
-        description: "Topic keyword must be at least 3 characters long.",
+        description: "Topic/business area must be at least 3 characters long.",
         variant: "destructive",
       });
       return;
     }
 
     setIsGeneratingIdeas(true);
-    setPotentialTrends([]);
-    setSelectedTrend(null);
+    setPotentialBusinessIdeas([]);
+    setSelectedIdea(null);
     setAnalysisResult(null);
     setIdeasError(null);
     setAnalysisError(null);
@@ -47,13 +47,13 @@ export default function IdeateTrendsPage() {
     try {
       const result: GeneratePotentialTrendsOutput = await generatePotentialTrends({ topicKeyword });
       if (result.potentialTrends && result.potentialTrends.length > 0) {
-        setPotentialTrends(result.potentialTrends);
+        setPotentialBusinessIdeas(result.potentialTrends);
         toast({
-          title: "Ideas Generated!",
-          description: "Select an idea below to analyze it further.",
+          title: "Business Ideas Generated!",
+          description: "Select an idea below to analyze its potential.",
         });
       } else {
-        setIdeasError("No potential trends were generated. Try a different keyword.");
+        setIdeasError("No potential business ideas were generated. Try a different keyword.");
          toast({
           title: "No Ideas Found",
           description: "The AI couldn't generate ideas for this topic. Try refining your keyword.",
@@ -61,12 +61,12 @@ export default function IdeateTrendsPage() {
         });
       }
     } catch (error) {
-      console.error("Error generating potential trends:", error);
+      console.error("Error generating potential business ideas:", error);
       const errorMessage = error instanceof Error ? error.message : "An unknown error occurred.";
       setIdeasError(`Failed to generate ideas: ${errorMessage}`);
       toast({
         title: "Generation Failed",
-        description: `Could not generate potential trends: ${errorMessage}`,
+        description: `Could not generate potential ideas: ${errorMessage}`,
         variant: "destructive",
       });
     } finally {
@@ -74,51 +74,54 @@ export default function IdeateTrendsPage() {
     }
   };
 
-  const handleAnalyzeTrend = async (trendName: string) => {
-    setSelectedTrend(trendName);
-    setIsAnalyzingTrend(true);
+  const handleAnalyzeIdea = async (ideaName: string) => {
+    setSelectedIdea(ideaName);
+    setIsAnalyzingIdea(true);
     setAnalysisResult(null);
     setAnalysisError(null);
 
     try {
-      const result: AnalyzePotentialTrendOutput = await analyzePotentialTrend({ trendName });
+      const result: AnalyzePotentialTrendOutput = await analyzePotentialTrend({ trendName: ideaName });
       setAnalysisResult(result.analysisMarkdown);
       toast({
         title: "Analysis Complete",
-        description: `Showing analysis for "${trendName}".`,
+        description: `Showing analysis for "${ideaName}".`,
       });
     } catch (error) {
-      console.error("Error analyzing potential trend:", error);
+      console.error("Error analyzing potential idea:", error);
       const errorMessage = error instanceof Error ? error.message : "An unknown error occurred.";
-      setAnalysisError(`Failed to analyze trend: ${errorMessage}`);
+      setAnalysisError(`Failed to analyze idea: ${errorMessage}`);
        toast({
         title: "Analysis Failed",
-        description: `Could not analyze the trend "${trendName}": ${errorMessage}`,
+        description: `Could not analyze the idea "${ideaName}": ${errorMessage}`,
         variant: "destructive",
       });
     } finally {
-      setIsAnalyzingTrend(false);
+      setIsAnalyzingIdea(false);
     }
   };
 
   return (
     <div className="container mx-auto space-y-8">
-      <h1 className="font-headline text-3xl font-bold my-8 text-foreground">Ideate New Trends</h1>
+      <header className="my-8">
+        <h1 className="font-headline text-3xl font-bold text-foreground">Explore Business Opportunities</h1>
+        <p className="text-muted-foreground mt-1">Get AI-powered ideas and analysis to help your business grow.</p>
+      </header>
       
       <Card className="shadow-lg">
         <CardHeader>
           <CardTitle className="flex items-center">
             <Search className="mr-2 h-6 w-6 text-primary" />
-            Explore a Topic
+            Brainstorm New Ideas
           </CardTitle>
           <CardDescription>
-            Enter a keyword or topic to brainstorm potential new trends.
+            Enter a keyword, industry, or business area to generate potential opportunities.
           </CardDescription>
         </CardHeader>
         <form onSubmit={handleGenerateIdeas}>
           <CardContent className="space-y-4">
             <div>
-              <Label htmlFor="topicKeyword" className="font-semibold">Topic / Keyword</Label>
+              <Label htmlFor="topicKeyword" className="font-semibold">Business Area / Keyword</Label>
               <Input
                 id="topicKeyword"
                 type="text"
@@ -127,7 +130,7 @@ export default function IdeateTrendsPage() {
                   setTopicKeyword(e.target.value);
                   if (ideasError) setIdeasError(null);
                 }}
-                placeholder="e.g., Sustainable Technology, Future of Work"
+                placeholder="e.g., Local Food Delivery, Eco-Friendly Products, B2B Software"
                 className="mt-1"
                 disabled={isGeneratingIdeas}
               />
@@ -148,7 +151,7 @@ export default function IdeateTrendsPage() {
               ) : (
                 <>
                   <Lightbulb className="mr-2 h-4 w-4" />
-                  Generate Potential Trends
+                  Generate Business Ideas
                 </>
               )}
             </Button>
@@ -156,25 +159,25 @@ export default function IdeateTrendsPage() {
         </form>
       </Card>
 
-      {potentialTrends.length > 0 && (
+      {potentialBusinessIdeas.length > 0 && (
         <Card className="shadow-md">
           <CardHeader>
             <CardTitle className="flex items-center">
                 <Sparkles className="mr-2 h-6 w-6 text-primary" />
-                Potential Trend Ideas
+                Potential Business Ideas
             </CardTitle>
-            <CardDescription>Click on an idea to get a detailed AI analysis.</CardDescription>
+            <CardDescription>Click on an idea to get a detailed AI analysis of its potential.</CardDescription>
           </CardHeader>
           <CardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {potentialTrends.map((trend, index) => (
+            {potentialBusinessIdeas.map((idea, index) => (
               <Button
                 key={index}
                 variant="outline"
                 className="justify-start text-left h-auto py-3"
-                onClick={() => handleAnalyzeTrend(trend)}
-                disabled={isAnalyzingTrend && selectedTrend === trend}
+                onClick={() => handleAnalyzeIdea(idea)}
+                disabled={isAnalyzingIdea && selectedIdea === idea}
               >
-                {isAnalyzingTrend && selectedTrend === trend ? (
+                {isAnalyzingIdea && selectedIdea === idea ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin shrink-0" />
                     Analyzing...
@@ -182,7 +185,7 @@ export default function IdeateTrendsPage() {
                 ) : (
                   <>
                    <Zap className="mr-2 h-4 w-4 text-accent shrink-0" />
-                   {trend}
+                   {idea}
                   </>
                 )}
               </Button>
@@ -191,13 +194,13 @@ export default function IdeateTrendsPage() {
         </Card>
       )}
 
-      {selectedTrend && (isAnalyzingTrend || analysisResult || analysisError) && (
+      {selectedIdea && (isAnalyzingIdea || analysisResult || analysisError) && (
         <Card className="shadow-lg">
           <CardHeader>
-            <CardTitle className="font-headline text-2xl">Analysis for: "{selectedTrend}"</CardTitle>
+            <CardTitle className="font-headline text-2xl">Business Analysis for: "{selectedIdea}"</CardTitle>
           </CardHeader>
           <CardContent>
-            {isAnalyzingTrend && (
+            {isAnalyzingIdea && (
               <div className="flex items-center justify-center p-8 text-muted-foreground">
                 <Loader2 className="mr-2 h-6 w-6 animate-spin" />
                 Loading analysis...
@@ -206,7 +209,7 @@ export default function IdeateTrendsPage() {
             {analysisError && (
               <div className="text-destructive p-4 border border-destructive/50 rounded-md bg-destructive/10">
                 <p className="flex items-center font-semibold">
-                    <AlertTriangle className="mr-2 h-5 w-5" /> Error Analyzing Trend
+                    <AlertTriangle className="mr-2 h-5 w-5" /> Error Analyzing Idea
                 </p>
                 <p className="mt-1 text-sm">{analysisError}</p>
               </div>

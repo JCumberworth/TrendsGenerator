@@ -1,7 +1,7 @@
 import type { Trend } from '@/types';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Globe, Zap, MessageCircle, Cpu, Library, Newspaper, TrendingUp, CalendarDays, ExternalLink } from 'lucide-react';
+import { Globe, Zap, Newspaper, TrendingUp, CalendarDays, ExternalLink, Building, Lightbulb, Users, Settings } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
 
 interface TrendCardProps {
@@ -11,29 +11,35 @@ interface TrendCardProps {
 const getSourceIcon = (sourceType: Trend['source_type']) => {
   switch (sourceType) {
     case 'google_trends':
-      return <Globe className="h-4 w-4 text-muted-foreground" />;
+      return <Globe className="h-4 w-4 text-muted-foreground" title="Google Trends" />;
     case 'exploding_topics':
-      return <Zap className="h-4 w-4 text-muted-foreground" />;
-    case 'reddit':
-      return <MessageCircle className="h-4 w-4 text-muted-foreground" />; // Lucide doesn't have a Reddit icon
+      return <Zap className="h-4 w-4 text-muted-foreground" title="Exploding Topics" />;
+    case 'business_news':
+      return <Newspaper className="h-4 w-4 text-muted-foreground" title="Business News" />;
     default:
-      return <Library className="h-4 w-4 text-muted-foreground" />;
+      return <Newspaper className="h-4 w-4 text-muted-foreground" title="Source" />;
   }
 };
 
+// Simplified category icons for business audience
 const getCategoryIcon = (category: string) => {
-  switch (category.toLowerCase()) {
-    case 'technology':
-      return <Cpu className="h-4 w-4 mr-1" />;
-    case 'education':
-      return <Library className="h-4 w-4 mr-1" />;
-    case 'environment':
-      return <Newspaper className="h-4 w-4 mr-1" />; // Using Newspaper as a proxy for Environment/News
-    case 'finance':
-      return <TrendingUp className="h-4 w-4 mr-1" />; // Using TrendingUp for Finance
-    default:
-      return <Library className="h-4 w-4 mr-1" />;
+  const lowerCategory = category.toLowerCase();
+  if (lowerCategory.includes('technology') || lowerCategory.includes('operations')) {
+    return <Settings className="h-4 w-4 mr-1" />;
   }
+  if (lowerCategory.includes('marketing') || lowerCategory.includes('sales')) {
+    return <TrendingUp className="h-4 w-4 mr-1" />;
+  }
+  if (lowerCategory.includes('customer') || lowerCategory.includes('experience')) {
+    return <Users className="h-4 w-4 mr-1" />;
+  }
+  if (lowerCategory.includes('human resources') || lowerCategory.includes('hr')) {
+    return <Users className="h-4 w-4 mr-1" />;
+  }
+  if (lowerCategory.includes('strategy') || lowerCategory.includes('finance')) {
+    return <Building className="h-4 w-4 mr-1" />;
+  }
+  return <Lightbulb className="h-4 w-4 mr-1" />; // Default icon
 };
 
 
@@ -49,13 +55,13 @@ export function TrendCard({ trend }: TrendCardProps) {
         </div>
         <CardDescription className="flex items-center text-sm">
           {getCategoryIcon(trend.category)}
-          {trend.category}
+          <Badge variant="outline">{trend.category}</Badge>
         </CardDescription>
       </CardHeader>
       <CardContent className="flex-grow">
-        <div className="flex items-center text-sm text-muted-foreground mb-2">
-          <TrendingUp className="h-4 w-4 mr-2 text-green-500" />
-          <span>Popularity: {trend.popularity_metric}</span>
+        <div className="text-sm text-muted-foreground mb-2">
+          <p className="font-semibold text-foreground">Relevance:</p>
+          <p>{trend.popularity_metric}</p>
         </div>
          <a 
             href={trend.source_url} 
@@ -69,7 +75,7 @@ export function TrendCard({ trend }: TrendCardProps) {
       <CardFooter>
         <div className="text-xs text-muted-foreground flex items-center">
           <CalendarDays className="h-3 w-3 mr-1" />
-          Collected: {format(parseISO(trend.date_collected), 'MMM d, yyyy')}
+          Data as of: {format(parseISO(trend.date_collected), 'MMM d, yyyy')}
         </div>
       </CardFooter>
     </Card>
