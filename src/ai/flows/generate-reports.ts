@@ -1,7 +1,7 @@
 'use server';
 
 /**
- * @fileOverview Generates monthly trend reports in Markdown format from AI-generated insights.
+ * @fileOverview Generates monthly trend reports in Markdown format using pre-analyzed trend insights.
  *
  * - generateReport - A function to generate the report.
  * - GenerateReportInput - The input type for the generateReport function.
@@ -12,15 +12,13 @@ import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
 const GenerateReportInputSchema = z.object({
-  month: z.string().describe('The month for which the report is generated (e.g., "June 2024").'),
-  topTrends: z.array(z.string()).describe('An array of the top trending topics.'),
-  fastestGrowingTrend: z.string().describe('The fastest growing trend.'),
-  insights: z.array(z.string()).describe('An array of key insights.'),
+  month: z.string().describe('The month for which the report is generated (e.g., "July 2024").'),
+  analysisMarkdown: z.string().describe('The AI-generated analysis of trends in Markdown format, including top trends, fastest growing, and insights.'),
 });
 export type GenerateReportInput = z.infer<typeof GenerateReportInputSchema>;
 
 const GenerateReportOutputSchema = z.object({
-  reportMarkdown: z.string().describe('The generated markdown report.'),
+  reportMarkdown: z.string().describe('The generated complete monthly trend report in Markdown format.'),
 });
 export type GenerateReportOutput = z.infer<typeof GenerateReportOutputSchema>;
 
@@ -34,18 +32,7 @@ const prompt = ai.definePrompt({
   output: {schema: GenerateReportOutputSchema},
   prompt: `# 🚀 Monthly Trends Report – {{{month}}}
 
-## 🔥 Top 5 Trending Topics
-{{#each topTrends}}
-1. **{{this}}**
-{{/each}}
-
-## 📈 Fastest Growing Trend
-- **{{{fastestGrowingTrend}}}**
-
-## 💡 Brief Insights
-{{#each insights}}
-- {{{this}}}
-{{/each}}
+{{{analysisMarkdown}}}
 `,
 });
 
