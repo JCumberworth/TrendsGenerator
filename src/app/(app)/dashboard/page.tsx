@@ -1,0 +1,55 @@
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
+import { mockTrends, mockReports } from '@/lib/mock-data';
+import type { Trend, Report } from '@/types';
+import { TrendCard } from '@/components/trends/trend-card';
+import { ReportCard } from '@/components/reports/report-card';
+import { ChevronRight } from 'lucide-react';
+
+export default function DashboardPage() {
+  const latestTrends = mockTrends.slice(0, 3);
+  const recentReports = mockReports.slice(0, 2);
+
+  return (
+    <div className="container mx-auto py-8">
+      <h1 className="font-headline text-3xl font-bold mb-8 text-foreground">Dashboard</h1>
+      
+      <section className="mb-12">
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="font-headline text-2xl font-semibold text-foreground">Latest Trends</h2>
+          <Button variant="outline" asChild>
+            <Link href="/trends">View All Trends <ChevronRight className="ml-2 h-4 w-4" /></Link>
+          </Button>
+        </div>
+        {latestTrends.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {latestTrends.map((trend) => (
+              <TrendCard key={trend.id} trend={trend} />
+            ))}
+          </div>
+        ) : (
+          <p className="text-muted-foreground">No trends available yet.</p>
+        )}
+      </section>
+
+      <section>
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="font-headline text-2xl font-semibold text-foreground">Recent Reports</h2>
+          <Button variant="outline" asChild>
+            <Link href="/reports">View All Reports <ChevronRight className="ml-2 h-4 w-4" /></Link>
+          </Button>
+        </div>
+        {recentReports.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {recentReports.map((report) => (
+              <ReportCard key={report.id} report={report} />
+            ))}
+          </div>
+        ) : (
+          <p className="text-muted-foreground">No reports available yet.</p>
+        )}
+      </section>
+    </div>
+  );
+}
