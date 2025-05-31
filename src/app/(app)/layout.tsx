@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/sidebar';
 import { AppHeader } from '@/components/shared/app-header';
 import { ThemeProvider } from '@/components/theme-provider';
-import { Activity, LayoutDashboard, FileText, TrendingUp, Settings, LogOut } from 'lucide-react';
+import { Activity, LayoutDashboard, FileText, TrendingUp, Lightbulb, Settings, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 export default function AppLayout({ children }: { children: ReactNode }) {
@@ -55,6 +55,14 @@ export default function AppLayout({ children }: { children: ReactNode }) {
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild tooltip="Ideate Trends">
+                    <Link href="/ideate-trends">
+                      <Lightbulb />
+                      <span>Ideate Trends</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
               </SidebarMenu>
             </SidebarContent>
             <SidebarFooter className="p-2">
@@ -84,7 +92,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
           <div className="flex flex-col sm:gap-4 md:pl-[var(--sidebar-width)] peer-data-[state=collapsed]:md:pl-[var(--sidebar-width-icon)]">
             <SidebarInset className="flex flex-1 flex-col bg-background shadow-sm md:rounded-xl">
               <AppHeader />
-              <main className="flex-1 overflow-auto p-4 sm:px-6 sm:py-0 md:gap-8">
+              <main className="flex-1 overflow-auto p-4 sm:px-6 md:gap-8">
                 {children}
               </main>
             </SidebarInset>
