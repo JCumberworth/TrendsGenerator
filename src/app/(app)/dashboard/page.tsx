@@ -1,15 +1,26 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
-import { mockTrends, mockReports } from '@/lib/mock-data';
 import type { Trend, Report } from '@/types';
 import { TrendCard } from '@/components/trends/trend-card';
 import { ReportCard } from '@/components/reports/report-card';
 import { ChevronRight } from 'lucide-react';
 
-export default function DashboardPage() {
-  const latestTrends = mockTrends.slice(0, 3);
-  const recentReports = mockReports.slice(0, 2);
+async function getData() {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+  const [trendsRes, reportsRes] = await Promise.all([
+    fetch(`${baseUrl}/api/trends`, { next: { revalidate: 60 } }),
+    fetch(`${baseUrl}/api/reports`, { next: { revalidate: 60 } }),
+  ]);
+  const trendsData = trendsRes.ok ? (await trendsRes.json()).trends as Trend[] : [];
+  const reportsData = reportsRes.ok ? (await reportsRes.json()).reports as Report[] : [];
+  return { trendsData, reportsData };
+}
+
+export default async function DashboardPage() {
+  const { trendsData, reportsData } = await getData();
+  const latestTrends = trendsData.slice(0, 3);
+  const recentReports = reportsData.slice(0, 2);
 
   return (
     <div className="container mx-auto">

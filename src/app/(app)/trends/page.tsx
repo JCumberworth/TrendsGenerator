@@ -1,11 +1,22 @@
 import { TrendCard } from '@/components/trends/trend-card';
-import { mockTrends } from '@/lib/mock-data';
 import type { Trend } from '@/types';
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 
-export default function TrendsPage() {
-  const trends: Trend[] = mockTrends;
+async function getTrends(): Promise<Trend[]> {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+  const res = await fetch(`${baseUrl}/api/trends`, {
+    next: { revalidate: 60 },
+  });
+  if (!res.ok) {
+    throw new Error('Failed to fetch trends');
+  }
+  const data = await res.json();
+  return data.trends as Trend[];
+}
+
+export default async function TrendsPage() {
+  const trends = await getTrends();
 
   return (
     <div className="container mx-auto py-8">

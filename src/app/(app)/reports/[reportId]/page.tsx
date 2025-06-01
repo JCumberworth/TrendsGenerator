@@ -1,4 +1,3 @@
-import { mockReports } from '@/lib/mock-data';
 import type { Report } from '@/types';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { FileText, CalendarDays } from 'lucide-react';
@@ -9,9 +8,15 @@ import { ArrowLeft } from 'lucide-react';
 
 // In a real app, fetch the report by ID
 async function getReport(reportId: string): Promise<Report | undefined> {
-  // Simulate API delay
-  await new Promise(resolve => setTimeout(resolve, 200)); 
-  return mockReports.find(report => report.id === reportId);
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+  const res = await fetch(`${baseUrl}/api/reports/${reportId}`, {
+    next: { revalidate: 60 },
+  });
+  if (!res.ok) {
+    return undefined;
+  }
+  const data = await res.json();
+  return data.report as Report;
 }
 
 export default async function ReportDetailsPage({ params }: { params: { reportId: string } }) {
