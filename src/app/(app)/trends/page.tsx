@@ -2,17 +2,11 @@ import { TrendCard } from '@/components/trends/trend-card';
 import type { Trend } from '@/types';
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
+import { mockTrends } from '@/lib/mock-data';
 
 async function getTrends(): Promise<Trend[]> {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-  const res = await fetch(`${baseUrl}/api/trends`, {
-    next: { revalidate: 60 },
-  });
-  if (!res.ok) {
-    throw new Error('Failed to fetch trends');
-  }
-  const data = await res.json();
-  return data.trends as Trend[];
+  // Use mock data directly during build
+  return mockTrends;
 }
 
 export default async function TrendsPage() {

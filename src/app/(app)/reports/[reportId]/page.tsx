@@ -5,18 +5,12 @@ import { format, parseISO } from 'date-fns';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
+import { mockReports } from '@/lib/mock-data';
 
 // In a real app, fetch the report by ID
 async function getReport(reportId: string): Promise<Report | undefined> {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-  const res = await fetch(`${baseUrl}/api/reports/${reportId}`, {
-    next: { revalidate: 60 },
-  });
-  if (!res.ok) {
-    return undefined;
-  }
-  const data = await res.json();
-  return data.report as Report;
+  // Look up the mock report by ID during build
+  return mockReports.find((r) => r.id === reportId);
 }
 
 export default async function ReportDetailsPage({ params }: { params: { reportId: string } }) {

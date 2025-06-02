@@ -2,19 +2,14 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import type { Trend, Report } from '@/types';
+import { mockTrends, mockReports } from '@/lib/mock-data';
 import { TrendCard } from '@/components/trends/trend-card';
 import { ReportCard } from '@/components/reports/report-card';
 import { ChevronRight } from 'lucide-react';
 
 async function getData() {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-  const [trendsRes, reportsRes] = await Promise.all([
-    fetch(`${baseUrl}/api/trends`, { next: { revalidate: 60 } }),
-    fetch(`${baseUrl}/api/reports`, { next: { revalidate: 60 } }),
-  ]);
-  const trendsData = trendsRes.ok ? (await trendsRes.json()).trends as Trend[] : [];
-  const reportsData = reportsRes.ok ? (await reportsRes.json()).reports as Report[] : [];
-  return { trendsData, reportsData };
+  // Directly use the mock data during build to avoid fetch failures
+  return { trendsData: mockTrends, reportsData: mockReports };
 }
 
 export default async function DashboardPage() {

@@ -2,17 +2,11 @@ import { ReportCard } from '@/components/reports/report-card';
 import type { Report } from '@/types';
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
+import { mockReports } from '@/lib/mock-data';
 
 async function getReports(): Promise<Report[]> {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-  const res = await fetch(`${baseUrl}/api/reports`, {
-    next: { revalidate: 60 },
-  });
-  if (!res.ok) {
-    throw new Error('Failed to fetch reports');
-  }
-  const data = await res.json();
-  return data.reports as Report[];
+  // Use mock data directly during build
+  return mockReports;
 }
 
 export default async function ReportsPage() {
