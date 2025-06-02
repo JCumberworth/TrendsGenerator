@@ -1,11 +1,22 @@
 import { ReportCard } from '@/components/reports/report-card';
-import { mockReports } from '@/lib/mock-data';
 import type { Report } from '@/types';
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 
-export default function ReportsPage() {
-  const reports: Report[] = mockReports; 
+async function getReports(): Promise<Report[]> {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+  const res = await fetch(`${baseUrl}/api/reports`, {
+    next: { revalidate: 60 },
+  });
+  if (!res.ok) {
+    throw new Error('Failed to fetch reports');
+  }
+  const data = await res.json();
+  return data.reports as Report[];
+}
+
+export default async function ReportsPage() {
+  const reports = await getReports();
 
   return (
     <div className="container mx-auto py-8">

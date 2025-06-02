@@ -7,8 +7,8 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Lightbulb, Zap, Loader2, AlertTriangle, Sparkles, Search } from 'lucide-react';
-import { generatePotentialTrends, type GeneratePotentialTrendsOutput } from '@/ai/flows/generate-potential-trends-flow';
-import { analyzePotentialTrend, type AnalyzePotentialTrendOutput } from '@/ai/flows/analyze-potential-trend-flow';
+import type { GeneratePotentialTrendsOutput } from '@/ai/flows/generate-potential-trends-flow';
+import type { AnalyzePotentialTrendOutput } from '@/ai/flows/analyze-potential-trend-flow';
 import { useToast } from "@/hooks/use-toast";
 
 export default function IdeateTrendsPage() {
@@ -45,7 +45,15 @@ export default function IdeateTrendsPage() {
     setAnalysisError(null);
 
     try {
-      const result: GeneratePotentialTrendsOutput = await generatePotentialTrends({ topicKeyword });
+      const response = await fetch('/api/ai/generate-ideas', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ topicKeyword }),
+      });
+      if (!response.ok) {
+        throw new Error(`Request failed with status ${response.status}`);
+      }
+      const result: GeneratePotentialTrendsOutput = await response.json();
       if (result.potentialTrends && result.potentialTrends.length > 0) {
         setPotentialBusinessIdeas(result.potentialTrends);
         toast({
@@ -81,7 +89,15 @@ export default function IdeateTrendsPage() {
     setAnalysisError(null);
 
     try {
-      const result: AnalyzePotentialTrendOutput = await analyzePotentialTrend({ trendName: ideaName });
+      const response = await fetch('/api/ai/analyze-idea', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ trendName: ideaName }),
+      });
+      if (!response.ok) {
+        throw new Error(`Request failed with status ${response.status}`);
+      }
+      const result: AnalyzePotentialTrendOutput = await response.json();
       setAnalysisResult(result.analysisMarkdown);
       toast({
         title: "Analysis Complete",
