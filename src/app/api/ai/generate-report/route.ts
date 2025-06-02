@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { generateReport } from '@/ai/flows/generate-reports';
 
 export async function POST(req: NextRequest) {
+  if (req.method !== 'POST') {
+    return NextResponse.json({ error: 'Method Not Allowed' }, { status: 405 });
+  }
   const body = await req.json();
   const { month, analysisMarkdown } = body;
   if (!month || !analysisMarkdown) {

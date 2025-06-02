@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { analyzePotentialTrend } from '@/ai/flows/analyze-potential-trend-flow';
 
 export async function POST(req: NextRequest) {
+  if (req.method !== 'POST') {
+    return NextResponse.json({ error: 'Method Not Allowed' }, { status: 405 });
+  }
   const body = await req.json();
   const { trendName } = body;
   if (!trendName || typeof trendName !== 'string') {

@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { generatePotentialTrends } from '@/ai/flows/generate-potential-trends-flow';
 
 export async function POST(req: NextRequest) {
+  if (req.method !== 'POST') {
+    return NextResponse.json({ error: 'Method Not Allowed' }, { status: 405 });
+  }
   const body = await req.json();
   const { topicKeyword } = body;
   if (!topicKeyword || typeof topicKeyword !== 'string') {
