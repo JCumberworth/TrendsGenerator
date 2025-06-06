@@ -1,36 +1,16 @@
-
-'use server';
-/**
- * @fileOverview Generates potential new business ideas or market opportunities based on a user-provided keyword or topic, tailored for business leaders.
- *
- * - generatePotentialTrends - A function that brainstorms potential business ideas.
- * - GeneratePotentialTrendsInput - The input type for the generatePotentialTrends function.
- * - GeneratePotentialTrendsOutput - The return type for the generatePotentialTrends function.
- */
-
-import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
+import { ai } from '@/ai/genkit';
+import { z } from 'zod';
 
 const GeneratePotentialTrendsInputSchema = z.object({
-  topicKeyword: z
-    .string()
-    .min(3, {message: 'Topic keyword must be at least 3 characters long.'})
-    .describe('A keyword or business area (e.g., "sustainable retail", "employee engagement", "local tourism") to brainstorm potential new business ideas or market opportunities from.'),
+  topicKeyword: z.string().describe('A keyword or business area to generate potential business ideas for'),
 });
-export type GeneratePotentialTrendsInput = z.infer<typeof GeneratePotentialTrendsInputSchema>;
 
 const GeneratePotentialTrendsOutputSchema = z.object({
-  potentialTrends: z
-    .array(z.string())
-    .min(3)
-    .max(5)
-    .describe('A list of 3 to 5 distinct potential new business ideas or market opportunities (concise names or short descriptions) related to the input keyword. Each idea should sound like a tangible business concept.'),
+  potentialTrends: z.array(z.string()).describe('An array of potential business ideas or trends'),
 });
-export type GeneratePotentialTrendsOutput = z.infer<typeof GeneratePotentialTrendsOutputSchema>;
 
-export async function generatePotentialTrends(input: GeneratePotentialTrendsInput): Promise<GeneratePotentialTrendsOutput> {
-  return generatePotentialTrendsFlow(input);
-}
+export type GeneratePotentialTrendsInput = z.infer<typeof GeneratePotentialTrendsInputSchema>;
+export type GeneratePotentialTrendsOutput = z.infer<typeof GeneratePotentialTrendsOutputSchema>;
 
 const prompt = ai.definePrompt({
   name: 'generatePotentialBusinessIdeasPrompt',
@@ -63,3 +43,7 @@ const generatePotentialTrendsFlow = ai.defineFlow(
     return output!;
   }
 );
+
+export async function generatePotentialTrends(input: GeneratePotentialTrendsInput): Promise<GeneratePotentialTrendsOutput> {
+  return generatePotentialTrendsFlow(input);
+}

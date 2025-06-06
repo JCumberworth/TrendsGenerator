@@ -109,3 +109,75 @@ const analyzePotentialTrendFlow = ai.defineFlow(
     return output!;
   }
 );
+import { ai } from '@/ai/genkit';
+import { z } from 'zod';
+
+const AnalyzePotentialTrendInputSchema = z.object({
+  trendName: z.string().describe('The name of the potential business trend to analyze'),
+});
+
+const AnalyzePotentialTrendOutputSchema = z.object({
+  analysisMarkdown: z.string().describe('Detailed markdown analysis of the potential business trend including market opportunity, target audience, implementation steps, potential challenges, and success metrics'),
+});
+
+export type AnalyzePotentialTrendInput = z.infer<typeof AnalyzePotentialTrendInputSchema>;
+export type AnalyzePotentialTrendOutput = z.infer<typeof AnalyzePotentialTrendOutputSchema>;
+
+const analyzePotentialTrendPrompt = ai.definePrompt({
+  name: 'analyzePotentialTrendPrompt',
+  input: {schema: AnalyzePotentialTrendInputSchema},
+  output: {schema: AnalyzePotentialTrendOutputSchema},
+  prompt: `You are an AI business analyst providing detailed analysis of potential business opportunities. 
+
+Analyze the following business idea: {{{trendName}}}
+
+Provide a comprehensive analysis in Markdown format that includes:
+
+## 🎯 **Market Opportunity**
+- Market size and potential
+- Current demand indicators
+- Growth trends and projections
+
+## 👥 **Target Audience**
+- Primary customer segments
+- Customer pain points this solves
+- Customer acquisition strategies
+
+## 🚀 **Implementation Steps**
+- Key steps to launch this business
+- Required resources and investments
+- Timeline considerations
+
+## ⚠️ **Potential Challenges**
+- Market competition analysis
+- Regulatory or legal considerations  
+- Technical or operational hurdles
+
+## 📊 **Success Metrics**
+- Key performance indicators to track
+- Revenue potential and pricing models
+- Scalability factors
+
+## 💡 **Recommendations**
+- Strategic advice for execution
+- Risk mitigation strategies
+- Next steps for validation
+
+Keep the analysis practical, actionable, and focused on helping business owners make informed decisions.`,
+});
+
+const analyzePotentialTrendFlow = ai.defineFlow(
+  {
+    name: 'analyzePotentialTrendFlow',
+    inputSchema: AnalyzePotentialTrendInputSchema,
+    outputSchema: AnalyzePotentialTrendOutputSchema,
+  },
+  async input => {
+    const {output} = await analyzePotentialTrendPrompt(input);
+    return output!;
+  }
+);
+
+export async function analyzePotentialTrend(input: AnalyzePotentialTrendInput): Promise<AnalyzePotentialTrendOutput> {
+  return analyzePotentialTrendFlow(input);
+}
