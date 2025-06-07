@@ -1,0 +1,224 @@
+Fetching daily trends...
+Error generating trends for YouTube creator economy pain points: TypeError: llmResponse.text is not a function
+    at <anonymous> (/home/runner/workspace/src/ai/flows/generate-potential-trends-flow.ts:44:32)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/flow.ts:132:14)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/action.ts:439:14)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/action.ts:335:26)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:73:16)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:115:24)
+    at async runInNewSpan (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:103:10)
+    at async newTrace (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:62:10)
+    at async AsyncFunction.actionFn.run (/home/runner/workspace/node_modules/@genkit-ai/core/src/action.ts:298:18) {
+  traceId: '56454dcbc1bb7a05f1fc4ccccc7f5ff8'
+}
+Error generating trends for Reddit business automation trending: TypeError: llmResponse.text is not a function
+    at <anonymous> (/home/runner/workspace/src/ai/flows/generate-potential-trends-flow.ts:44:32)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/flow.ts:132:14)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/action.ts:439:14)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/action.ts:335:26)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:73:16)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:115:24)
+    at async runInNewSpan (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:103:10)
+    at async newTrace (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:62:10)
+    at async AsyncFunction.actionFn.run (/home/runner/workspace/node_modules/@genkit-ai/core/src/action.ts:298:18) {
+  traceId: 'f95a9f01f1587ee54ab4c685560cdddb'
+}
+Error generating trends for TikTok small business marketing gaps: TypeError: llmResponse.text is not a function
+    at <anonymous> (/home/runner/workspace/src/ai/flows/generate-potential-trends-flow.ts:44:32)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/flow.ts:132:14)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/action.ts:439:14)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/action.ts:335:26)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:73:16)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:115:24)
+    at async runInNewSpan (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:103:10)
+    at async newTrace (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:62:10)
+    at async AsyncFunction.actionFn.run (/home/runner/workspace/node_modules/@genkit-ai/core/src/action.ts:298:18) {
+  traceId: '44b30dcc2b4c79544c573c47f845793e'
+}
+Error generating trends for remote team collaboration frustrations: TypeError: llmResponse.text is not a function
+    at <anonymous> (/home/runner/workspace/src/ai/flows/generate-potential-trends-flow.ts:44:32)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/flow.ts:132:14)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/action.ts:439:14)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/action.ts:335:26)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:73:16)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:115:24)
+    at async runInNewSpan (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:103:10)
+    at async newTrace (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:62:10)
+    at async AsyncFunction.actionFn.run (/home/runner/workspace/node_modules/@genkit-ai/core/src/action.ts:298:18) {
+  traceId: '1d14eb90f30fd2a99959c4ee680dcc04'
+}
+Error generating trends for AI customer service implementation challenges: TypeError: llmResponse.text is not a function
+    at <anonymous> (/home/runner/workspace/src/ai/flows/generate-potential-trends-flow.ts:44:32)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/flow.ts:132:14)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/action.ts:439:14)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/action.ts:335:26)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:73:16)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:115:24)
+    at async runInNewSpan (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:103:10)
+    at async newTrace (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:62:10)
+    at async AsyncFunction.actionFn.run (/home/runner/workspace/node_modules/@genkit-ai/core/src/action.ts:298:18) {
+  traceId: '208f7bc772e476de4d4ec83e31633a1d'
+}
+Error generating trends for sustainable packaging startup opportunities: TypeError: llmResponse.text is not a function
+    at <anonymous> (/home/runner/workspace/src/ai/flows/generate-potential-trends-flow.ts:44:32)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/flow.ts:132:14)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/action.ts:439:14)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/action.ts:335:26)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:73:16)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:115:24)
+    at async runInNewSpan (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:103:10)
+    at async newTrace (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:62:10)
+    at async AsyncFunction.actionFn.run (/home/runner/workspace/node_modules/@genkit-ai/core/src/action.ts:298:18) {
+  traceId: 'ef544c23ab69ae327af7d47daab4b0f6'
+}
+Error generating trends for local business digital transformation needs: TypeError: llmResponse.text is not a function
+    at <anonymous> (/home/runner/workspace/src/ai/flows/generate-potential-trends-flow.ts:44:32)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/flow.ts:132:14)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/action.ts:439:14)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/action.ts:335:26)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:73:16)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:115:24)
+    at async runInNewSpan (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:103:10)
+    at async newTrace (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:62:10)
+    at async AsyncFunction.actionFn.run (/home/runner/workspace/node_modules/@genkit-ai/core/src/action.ts:298:18) {
+  traceId: '8a6310857ae3b998509968b3b9fd1db5'
+}
+Error generating trends for freelancer financial management pain points: TypeError: llmResponse.text is not a function
+    at <anonymous> (/home/runner/workspace/src/ai/flows/generate-potential-trends-flow.ts:44:32)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/flow.ts:132:14)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/action.ts:439:14)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/action.ts:335:26)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:73:16)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:115:24)
+    at async runInNewSpan (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:103:10)
+    at async newTrace (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:62:10)
+    at async AsyncFunction.actionFn.run (/home/runner/workspace/node_modules/@genkit-ai/core/src/action.ts:298:18) {
+  traceId: 'b97dec4e2273072ece43a0aaff24e026'
+}
+Saved 0 fresh trends
+Error generating trends for YouTube creator economy pain points: TypeError: llmResponse.text is not a function
+    at <anonymous> (/home/runner/workspace/src/ai/flows/generate-potential-trends-flow.ts:44:32)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/flow.ts:132:14)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/action.ts:439:14)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/action.ts:335:26)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:73:16)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:115:24)
+    at async runInNewSpan (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:103:10)
+    at async newTrace (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:62:10)
+    at async AsyncFunction.actionFn.run (/home/runner/workspace/node_modules/@genkit-ai/core/src/action.ts:298:18) {
+  traceId: '4f601a34b92ef4c9678e45239d98e086'
+}
+Error generating trends for Reddit business automation trending: TypeError: llmResponse.text is not a function
+    at <anonymous> (/home/runner/workspace/src/ai/flows/generate-potential-trends-flow.ts:44:32)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/flow.ts:132:14)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/action.ts:439:14)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/action.ts:335:26)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:73:16)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:115:24)
+    at async runInNewSpan (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:103:10)
+    at async newTrace (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:62:10)
+    at async AsyncFunction.actionFn.run (/home/runner/workspace/node_modules/@genkit-ai/core/src/action.ts:298:18) {
+  traceId: '61f98f7291b1c898b069328075f23ca8'
+}
+Error generating trends for TikTok small business marketing gaps: TypeError: llmResponse.text is not a function
+    at <anonymous> (/home/runner/workspace/src/ai/flows/generate-potential-trends-flow.ts:44:32)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/flow.ts:132:14)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/action.ts:439:14)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/action.ts:335:26)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:73:16)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:115:24)
+    at async runInNewSpan (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:103:10)
+    at async newTrace (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:62:10)
+    at async AsyncFunction.actionFn.run (/home/runner/workspace/node_modules/@genkit-ai/core/src/action.ts:298:18) {
+  traceId: 'ae49edea4dbd949bcd19c45d0c392d19'
+}
+Error generating trends for remote team collaboration frustrations: TypeError: llmResponse.text is not a function
+    at <anonymous> (/home/runner/workspace/src/ai/flows/generate-potential-trends-flow.ts:44:32)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/flow.ts:132:14)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/action.ts:439:14)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/action.ts:335:26)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:73:16)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:115:24)
+    at async runInNewSpan (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:103:10)
+    at async newTrace (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:62:10)
+    at async AsyncFunction.actionFn.run (/home/runner/workspace/node_modules/@genkit-ai/core/src/action.ts:298:18) {
+  traceId: 'a5dd97caf848a12d40c67e3a8f31966f'
+}
+Error generating trends for AI customer service implementation challenges: TypeError: llmResponse.text is not a function
+    at <anonymous> (/home/runner/workspace/src/ai/flows/generate-potential-trends-flow.ts:44:32)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/flow.ts:132:14)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/action.ts:439:14)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/action.ts:335:26)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:73:16)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:115:24)
+    at async runInNewSpan (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:103:10)
+    at async newTrace (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:62:10)
+    at async AsyncFunction.actionFn.run (/home/runner/workspace/node_modules/@genkit-ai/core/src/action.ts:298:18) {
+  traceId: 'd28426af295c85e903a76ff0d47d4ffd'
+}
+Error generating trends for sustainable packaging startup opportunities: TypeError: llmResponse.text is not a function
+    at <anonymous> (/home/runner/workspace/src/ai/flows/generate-potential-trends-flow.ts:44:32)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/flow.ts:132:14)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/action.ts:439:14)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/action.ts:335:26)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:73:16)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:115:24)
+    at async runInNewSpan (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:103:10)
+    at async newTrace (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:62:10)
+    at async AsyncFunction.actionFn.run (/home/runner/workspace/node_modules/@genkit-ai/core/src/action.ts:298:18) {
+  traceId: '2f467cb6fd74739e27076feab6374cd8'
+}
+Error generating trends for local business digital transformation needs: TypeError: llmResponse.text is not a function
+    at <anonymous> (/home/runner/workspace/src/ai/flows/generate-potential-trends-flow.ts:44:32)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/flow.ts:132:14)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/action.ts:439:14)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/action.ts:335:26)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:73:16)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:115:24)
+    at async runInNewSpan (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:103:10)
+    at async newTrace (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:62:10)
+    at async AsyncFunction.actionFn.run (/home/runner/workspace/node_modules/@genkit-ai/core/src/action.ts:298:18) {
+  traceId: '7443436271ffae599b65153dadfb388e'
+}
+Error generating trends for freelancer financial management pain points: TypeError: llmResponse.text is not a function
+    at <anonymous> (/home/runner/workspace/src/ai/flows/generate-potential-trends-flow.ts:44:32)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/flow.ts:132:14)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/action.ts:439:14)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/action.ts:335:26)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:73:16)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:115:24)
+    at async runInNewSpan (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:103:10)
+    at async newTrace (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:62:10)
+    at async AsyncFunction.actionFn.run (/home/runner/workspace/node_modules/@genkit-ai/core/src/action.ts:298:18) {
+  traceId: '01260da4269d2bf2195daa7d671cd2b1'
+}
+Error generating daily report: TypeError: llmResponse.text is not a function
+    at <anonymous> (/home/runner/workspace/src/ai/flows/analyze-trends.ts:64:37)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/flow.ts:132:14)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/action.ts:439:14)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/action.ts:335:26)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:73:16)
+    at async <anonymous> (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:115:24)
+    at async runInNewSpan (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:103:10)
+    at async newTrace (/home/runner/workspace/node_modules/@genkit-ai/core/src/tracing/instrumentation.ts:62:10)
+    at async AsyncFunction.actionFn.run (/home/runner/workspace/node_modules/@genkit-ai/core/src/action.ts:298:18) {
+  traceId: '5527e0ad0aee08a0e7d58f7085f40ad1'
+}
+Daily data update completed
