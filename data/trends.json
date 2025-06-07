@@ -1,4 +1,85 @@
 {
-  "trends": [],
-  "lastUpdated": "2025-06-07T00:35:36.108Z"
+  "trends": [
+    {
+      "id": "actionable-YouTube-creator-economy-pain-points-0",
+      "topic_name": "AI-powered YouTube video editing software specializing in short-form content optimization.",
+      "source_url": "https://trends.google.com/trends/explore?q=AI-powered%20YouTube%20video%20editing%20software%20specializing%20in%20short-form%20content%20optimization.",
+      "popularity_metric": "Actionable business opportunity identified",
+      "category": "Creator Tools/SaaS",
+      "date_collected": "2025-06-07T00:37:21Z",
+      "source_type": "targeted_analysis",
+      "sentiment_score": "Positive"
+    },
+    {
+      "id": "actionable-Reddit-business-automation-trending-0",
+      "topic_name": "Reddit Moderator Automation for SMBs",
+      "source_url": "https://trends.google.com/trends/explore?q=Reddit%20Moderator%20Automation%20for%20SMBs",
+      "popularity_metric": "Actionable business opportunity identified",
+      "category": "Social Media/Automation",
+      "date_collected": "2025-06-07T00:37:21Z",
+      "source_type": "targeted_analysis",
+      "sentiment_score": "Positive"
+    },
+    {
+      "id": "actionable-TikTok-small-business-marketing-gaps-0",
+      "topic_name": "TikTok Trend Prediction & Content Generation Tool using AI and competitor analysis.",
+      "source_url": "https://trends.google.com/trends/explore?q=TikTok%20Trend%20Prediction%20%26%20Content%20Generation%20Tool%20using%20AI%20and%20competitor%20analysis.",
+      "popularity_metric": "Actionable business opportunity identified",
+      "category": "Marketing/Social Media",
+      "date_collected": "2025-06-07T00:37:22Z",
+      "source_type": "targeted_analysis",
+      "sentiment_score": "Positive"
+    },
+    {
+      "id": "actionable-remote-team-collaboration-frustrations-0",
+      "topic_name": "Smart Async Communication Platform with AI-Driven Prioritization for Globally Distributed Teams",
+      "source_url": "https://trends.google.com/trends/explore?q=Smart%20Async%20Communication%20Platform%20with%20AI-Driven%20Prioritization%20for%20Globally%20Distributed%20Teams",
+      "popularity_metric": "Actionable business opportunity identified",
+      "category": "Productivity/Remote Work",
+      "date_collected": "2025-06-07T00:37:23Z",
+      "source_type": "targeted_analysis",
+      "sentiment_score": "Positive"
+    },
+    {
+      "id": "actionable-AI-customer-service-implementation-challenges-0",
+      "topic_name": "No-Code AI Chatbot Builder for Small Businesses",
+      "source_url": "https://trends.google.com/trends/explore?q=No-Code%20AI%20Chatbot%20Builder%20for%20Small%20Businesses",
+      "popularity_metric": "Actionable business opportunity identified",
+      "category": "AI/Customer Service",
+      "date_collected": "2025-06-07T00:37:24Z",
+      "source_type": "targeted_analysis",
+      "sentiment_score": "Positive"
+    },
+    {
+      "id": "actionable-sustainable-packaging-startup-opportunities-0",
+      "topic_name": "A SaaS platform matching e-commerce businesses with verified sustainable packaging suppliers based on specific needs (material, size, certifications).",
+      "source_url": "https://trends.google.com/trends/explore?q=A%20SaaS%20platform%20matching%20e-commerce%20businesses%20with%20verified%20sustainable%20packaging%20suppliers%20based%20on%20specific%20needs%20(material%2C%20size%2C%20certifications).",
+      "popularity_metric": "Actionable business opportunity identified",
+      "category": "Sustainability/E-commerce",
+      "date_collected": "2025-06-07T00:37:25Z",
+      "source_type": "targeted_analysis",
+      "sentiment_score": "Positive"
+    },
+    {
+      "id": "actionable-local-business-digital-transformation-needs-0",
+      "topic_name": "Hyperlocal Delivery Optimization Platform for Small Businesses",
+      "source_url": "https://trends.google.com/trends/explore?q=Hyperlocal%20Delivery%20Optimization%20Platform%20for%20Small%20Businesses",
+      "popularity_metric": "Actionable business opportunity identified",
+      "category": "Local Business/Technology",
+      "date_collected": "2025-06-07T00:37:26Z",
+      "source_type": "targeted_analysis",
+      "sentiment_score": "Positive"
+    },
+    {
+      "id": "actionable-freelancer-financial-management-pain-points-0",
+      "topic_name": "AI-driven automated tax preparation for freelancers with irregular income streams.",
+      "source_url": "https://trends.google.com/trends/explore?q=AI-driven%20automated%20tax%20preparation%20for%20freelancers%20with%20irregular%20income%20streams.",
+      "popularity_metric": "Actionable business opportunity identified",
+      "category": "Fintech/Freelancing",
+      "date_collected": "2025-06-07T00:37:27Z",
+      "source_type": "targeted_analysis",
+      "sentiment_score": "Positive"
+    }
+  ],
+  "lastUpdated": "2025-06-07T00:37:27.510Z"
 }
