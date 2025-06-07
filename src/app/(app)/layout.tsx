@@ -1,4 +1,3 @@
-
 import type { ReactNode } from 'react';
 import Link from 'next/link';
 import {
@@ -89,13 +88,11 @@ export default function AppLayout({ children }: { children: ReactNode }) {
               */}
             </SidebarFooter>
           </Sidebar>
-          <div className="flex flex-col sm:gap-4 md:pl-[var(--sidebar-width)] peer-data-[state=collapsed]:md:pl-[var(--sidebar-width-icon)]">
-            <SidebarInset className="flex flex-1 flex-col bg-background shadow-sm md:rounded-xl">
-              <AppHeader />
-              <main className="flex-1 overflow-auto px-4 pb-4 sm:px-6 md:gap-8">
-                {children}
-              </main>
-            </SidebarInset>
+          <div className="flex flex-1 flex-col">
+            <AppHeader />
+            <main className="flex-1 p-4 md:p-6">
+              {children}
+            </main>
           </div>
         </div>
       </SidebarProvider>
