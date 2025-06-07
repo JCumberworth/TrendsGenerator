@@ -17,8 +17,13 @@ async function getData() {
 
 export default async function DashboardPage() {
   const { trendsData, reportsData } = await getData();
-  const latestTrends = trendsData.slice(0, 3);
-  const recentReports = reportsData.slice(0, 2);
+  
+  // Ensure we have arrays to work with
+  const trendsArray = Array.isArray(trendsData) ? trendsData : [];
+  const reportsArray = Array.isArray(reportsData) ? reportsData : [];
+  
+  const latestTrends = trendsArray.slice(0, 3);
+  const recentReports = reportsArray.slice(0, 2);
 
   return (
     <div className="container mx-auto space-y-6">
