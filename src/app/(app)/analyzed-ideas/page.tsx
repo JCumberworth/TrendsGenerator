@@ -1,4 +1,7 @@
+Implementing prompt-based editing for the project outline.
+```
 
+```typescript
 "use client";
 
 import { useState, useEffect } from 'react';
@@ -27,11 +30,11 @@ export default function AnalyzedIdeasPage() {
   const [analyses, setAnalyses] = useState<SavedAnalysis[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedAnalysis, setSelectedAnalysis] = useState<SavedAnalysis | null>(null);
-  
+
   // Outline generation states
   const [isGeneratingOutline, setIsGeneratingOutline] = useState<boolean>(false);
   const [isEditingOutline, setIsEditingOutline] = useState<boolean>(false);
-  const [editableOutline, setEditableOutline] = useState<string>('');
+  const [editPrompt, setEditPrompt] = useState('');
   const [editsRemaining, setEditsRemaining] = useState<number>(2);
   const [outlineError, setOutlineError] = useState<string | null>(null);
 
@@ -89,7 +92,7 @@ export default function AnalyzedIdeasPage() {
       }
 
       const data: GenerateProjectOutlineOutput = await response.json();
-      
+
       const updatedAnalysis = {
         ...selectedAnalysis,
         targetAudience: data.targetAudience,
@@ -98,7 +101,7 @@ export default function AnalyzedIdeasPage() {
       };
 
       updateAnalysisInStorage(updatedAnalysis);
-      setEditableOutline(data.projectOutline);
+      setEditPrompt('');
       setEditsRemaining(2);
 
       toast({
@@ -122,31 +125,66 @@ export default function AnalyzedIdeasPage() {
 
   const handleEditOutline = () => {
     if (editsRemaining > 0 && selectedAnalysis?.projectOutline) {
-      setEditableOutline(selectedAnalysis.projectOutline);
+      setEditPrompt('');
       setIsEditingOutline(true);
     }
   };
 
-  const handleSaveOutlineEdit = () => {
+  const handleSaveOutlineEdit = async () => {
     if (!selectedAnalysis) return;
 
-    const updatedAnalysis = {
-      ...selectedAnalysis,
-      projectOutline: editableOutline
-    };
+    setIsGeneratingOutline(true);
+    setOutlineError(null);
 
-    updateAnalysisInStorage(updatedAnalysis);
-    setIsEditingOutline(false);
-    setEditsRemaining(prev => prev - 1);
+    try {
+      const response = await fetch('/api/ai/generate-project-outline', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          trendName: selectedAnalysis.trendName,
+          analysisMarkdown: selectedAnalysis.analysisMarkdown,
+          projectOutline: selectedAnalysis.projectOutline,
+          editPrompt: editPrompt,
+        }),
+      });
 
-    toast({
-      title: "Outline Updated",
-      description: `Edit saved. You have ${editsRemaining - 1} edit${editsRemaining - 1 !== 1 ? 's' : ''} remaining.`,
-    });
+      if (!response.ok) {
+        throw new Error(`Failed to edit project outline: ${response.status}`);
+      }
+
+      const data: GenerateProjectOutlineOutput = await response.json();
+
+      const updatedAnalysis = {
+        ...selectedAnalysis,
+        projectOutline: data.projectOutline
+      };
+
+      updateAnalysisInStorage(updatedAnalysis);
+      setIsEditingOutline(false);
+      setEditsRemaining(prev => prev - 1);
+      setEditPrompt('');
+
+      toast({
+        title: "Outline Updated",
+        description: `Edit saved. You have ${editsRemaining - 1} edit${editsRemaining - 1 !== 1 ? 's' : ''} remaining.`,
+      });
+    } catch (error) {
+      console.error('Error editing project outline:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+      setOutlineError(errorMessage);
+
+      toast({
+        title: "Outline Edit Failed",
+        description: errorMessage,
+        variant: "destructive",
+      });
+    } finally {
+      setIsGeneratingOutline(false);
+    }
   };
 
   const handleCancelOutlineEdit = () => {
-    setEditableOutline(selectedAnalysis?.projectOutline || '');
+    setEditPrompt('');
     setIsEditingOutline(false);
   };
 
@@ -363,15 +401,18 @@ export default function AnalyzedIdeasPage() {
                       {isEditingOutline ? (
                         <div className="space-y-3">
                           <Textarea
-                            value={editableOutline}
-                            onChange={(e) => setEditableOutline(e.target.value)}
-                            className="min-h-[400px] font-mono text-sm"
-                            placeholder="Edit your project outline..."
+                            value={editPrompt}
+                            onChange={(e) => setEditPrompt(e.target.value)}
+                            className="min-h-[100px] font-mono text-sm"
+                            placeholder="Enter your edit prompt..."
                           />
+                          <div className="bg-card p-3 rounded-md border">
+                            <pre className="whitespace-pre-wrap break-words text-sm">{selectedAnalysis.projectOutline}</pre>
+                          </div>
                           <div className="flex gap-2">
                             <Button onClick={handleSaveOutlineEdit} size="sm">
                               <Check className="mr-1 h-3 w-3" />
-                              Save Changes
+                              Apply Edit
                             </Button>
                             <Button 
                               variant="outline" 

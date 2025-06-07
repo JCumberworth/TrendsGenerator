@@ -5,6 +5,7 @@ import { z } from 'zod';
 const GenerateProjectOutlineInputSchema = z.object({
   trendName: z.string().describe('The name of the business trend'),
   analysisMarkdown: z.string().describe('The existing analysis of the trend'),
+  editPrompt: z.string().optional().describe('User prompt for editing the project outline'),
 });
 
 const GenerateProjectOutlineOutputSchema = z.object({
@@ -22,15 +23,22 @@ const generateProjectOutlineFlow = ai.defineFlow(
     outputSchema: GenerateProjectOutlineOutputSchema,
   },
   async (input) => {
-    const llmResponse = await ai.generate({
-      model: 'googleai/gemini-1.5-flash',
-      prompt: `You are a technical project manager and business analyst. Based on the business idea "${input.trendName}" and its analysis, provide:
+    let prompt = `You are a technical project manager and business analyst. Based on the business idea "${input.trendName}" and its analysis, provide:
 
 1. TARGET AUDIENCE identification
 2. A detailed REPLIT PROJECT OUTLINE for building an MVP
 
 Analysis:
-${input.analysisMarkdown}
+${input.analysisMarkdown}`;
+
+    // If an edit prompt is provided, include it in the prompt to the AI
+    if (input.editPrompt) {
+      prompt += `\n\nUser Revision Request: ${input.editPrompt}\n\nPlease revise the project outline based on this feedback while maintaining the same structure.`;
+    }
+
+    const llmResponse = await ai.generate({
+      model: 'googleai/gemini-1.5-flash',
+      prompt
 
 Please provide your response in two sections:
 

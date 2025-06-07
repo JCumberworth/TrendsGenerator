@@ -5,7 +5,7 @@ import { generateProjectOutline } from '@/ai/flows/generate-project-outline-flow
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { trendName, analysisMarkdown } = body;
+    const { trendName, analysisMarkdown, editPrompt } = body;
 
     if (!trendName || typeof trendName !== 'string') {
       return NextResponse.json(
@@ -23,7 +23,8 @@ export async function POST(req: NextRequest) {
 
     const result = await generateProjectOutline({ 
       trendName: trendName.trim(),
-      analysisMarkdown: analysisMarkdown.trim()
+      analysisMarkdown: analysisMarkdown.trim(),
+      editPrompt: editPrompt?.trim()
     });
     
     return NextResponse.json(result);
