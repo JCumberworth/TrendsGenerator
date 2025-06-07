@@ -1,36 +1,17 @@
+
 import { ai } from '@/ai/genkit';
 import { z } from 'zod';
 
 const GeneratePotentialTrendsInputSchema = z.object({
-  topicKeyword: z.string().describe('A keyword or business area to generate potential business ideas for'),
+  topicKeyword: z.string().describe('The topic keyword to generate potential business trends for'),
 });
 
 const GeneratePotentialTrendsOutputSchema = z.object({
-  potentialTrends: z.array(z.string()).describe('An array of potential business ideas or trends'),
+  potentialTrends: z.array(z.string()).describe('Array of potential business trend names related to the topic keyword'),
 });
 
-export type GeneratePotentialTrendsInput = z.infer<typeof GeneratePotentialTrendsInputSchema>;
-export type GeneratePotentialTrendsOutput = z.infer<typeof GeneratePotentialTrendsOutputSchema>;
-
-const prompt = ai.definePrompt({
-  name: 'generatePotentialBusinessIdeasPrompt',
-  input: {schema: GeneratePotentialTrendsInputSchema},
-  output: {schema: GeneratePotentialTrendsOutputSchema},
-  prompt: `You are an AI assistant specialized in identifying emerging business opportunities and market niches for entrepreneurs and business leaders.
-Given the following topic or keyword: {{{topicKeyword}}}
-
-Brainstorm and list 3 to 5 distinct potential new business ideas or market opportunities.
-These ideas should be concise (a short phrase or name representing a business concept).
-Focus on practical applicability, potential for profitability, and relevance to current market needs.
-Avoid overly technical jargon. Aim for ideas that a business owner could readily understand and consider.
-Return your answer as a list of strings under the 'potentialTrends' key.
-
-Example ideas for 'sustainable retail':
-- "Subscription box for eco-friendly home products"
-- "Local repair and upcycling workshop for clothing"
-- "Consulting service for small retailers transitioning to sustainable packaging"
-`,
-});
+type GeneratePotentialTrendsInput = z.infer<typeof GeneratePotentialTrendsInputSchema>;
+type GeneratePotentialTrendsOutput = z.infer<typeof GeneratePotentialTrendsOutputSchema>;
 
 const generatePotentialTrendsFlow = ai.defineFlow(
   {
@@ -38,9 +19,37 @@ const generatePotentialTrendsFlow = ai.defineFlow(
     inputSchema: GeneratePotentialTrendsInputSchema,
     outputSchema: GeneratePotentialTrendsOutputSchema,
   },
-  async input => {
-    const {output} = await prompt(input);
-    return output!;
+  async (input) => {
+    const llmResponse = await ai.generate({
+      model: 'googleai/gemini-1.5-flash',
+      prompt: `You are a business trends expert. Based on the keyword "${input.topicKeyword}", generate 5-7 specific, actionable business trend ideas that entrepreneurs and small business owners could potentially capitalize on.
+
+Each trend should be:
+- Specific and focused (not too broad)
+- Relevant to current market conditions
+- Implementable by small to medium businesses
+- Connected to the keyword "${input.topicKeyword}"
+
+Format your response as a simple list, one trend per line, without bullets or numbers. Focus on emerging opportunities, technological innovations, consumer behavior shifts, or market gaps related to ${input.topicKeyword}.
+
+Example format:
+AI-Powered Customer Service for Local Restaurants
+Sustainable Packaging Solutions for E-commerce
+Remote Team Collaboration Tools for Creative Agencies
+
+Now generate trends for: ${input.topicKeyword}`,
+    });
+
+    // Split the response into individual trends and clean them up
+    const trends = llmResponse.text()
+      .split('\n')
+      .map(trend => trend.trim())
+      .filter(trend => trend.length > 0 && !trend.startsWith('-') && !trend.match(/^\d+\./))
+      .slice(0, 7); // Limit to 7 trends max
+
+    return {
+      potentialTrends: trends,
+    };
   }
 );
 

@@ -1,7 +1,15 @@
-import {genkit} from 'genkit';
-import {googleAI} from '@genkit-ai/googleai';
+
+import { genkit } from 'genkit';
+import { googleAI } from 'genkitx-google-ai';
+
+// Validate that the API key is available
+const apiKey = process.env.GOOGLE_GENAI_API_KEY;
+if (!apiKey) {
+  throw new Error('GOOGLE_GENAI_API_KEY environment variable is required');
+}
 
 export const ai = genkit({
-  plugins: [googleAI()],
-  model: 'googleai/gemini-2.0-flash',
+  plugins: [googleAI({ apiKey })],
+  logLevel: 'debug',
+  enableTracingAndMetrics: true,
 });

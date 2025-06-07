@@ -1,42 +1,18 @@
-'use server';
 
-/**
- * @fileOverview Generates monthly business trend snapshot reports in Markdown format using pre-analyzed insights tailored for business leaders.
- *
- * - generateReport - A function to generate the business-focused report.
- * - GenerateReportInput - The input type for the generateReport function.
- * - GenerateReportOutput - The return type for the generateReport function.
- */
-
-import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
+import { ai } from '@/ai/genkit';
+import { z } from 'zod';
 
 const GenerateReportInputSchema = z.object({
-  month: z.string().describe('The month for which the report is generated (e.g., "July 2024").'),
-  analysisMarkdown: z.string().describe('The AI-generated analysis of business trends in Markdown format, already structured with Top 3 Trends, Why it Matters, Simple Actions, Quick Wins, and Additional Resources.'),
+  month: z.string().describe('The month for which to generate the report'),
+  analysisMarkdown: z.string().describe('The analysis markdown content to include in the report'),
 });
-export type GenerateReportInput = z.infer<typeof GenerateReportInputSchema>;
 
 const GenerateReportOutputSchema = z.object({
-  reportMarkdown: z.string().describe('The generated complete monthly business trends snapshot in Markdown format, max 1-2 pages.'),
+  reportMarkdown: z.string().describe('The complete monthly report in markdown format'),
 });
-export type GenerateReportOutput = z.infer<typeof GenerateReportOutputSchema>;
 
-export async function generateReport(input: GenerateReportInput): Promise<GenerateReportOutput> {
-  return generateReportFlow(input);
-}
-
-// The analysisMarkdown should already contain the full content structure needed.
-// This prompt just wraps it with the main report title and month.
-const prompt = ai.definePrompt({
-  name: 'generateBusinessReportPrompt',
-  input: {schema: GenerateReportInputSchema},
-  output: {schema: GenerateReportOutputSchema},
-  prompt: `# 📊 **Monthly Business Trends Snapshot** – {{{month}}}
-
-{{{analysisMarkdown}}}
-`,
-});
+type GenerateReportInput = z.infer<typeof GenerateReportInputSchema>;
+type GenerateReportOutput = z.infer<typeof GenerateReportOutputSchema>;
 
 const generateReportFlow = ai.defineFlow(
   {
@@ -44,10 +20,57 @@ const generateReportFlow = ai.defineFlow(
     inputSchema: GenerateReportInputSchema,
     outputSchema: GenerateReportOutputSchema,
   },
-  async input => {
-    // The analysisMarkdown from analyze-trends.ts should already be in the desired report format.
-    // This flow mainly just titles it for the specific month.
-    const {output} = await prompt(input);
-    return output!;
+  async (input) => {
+    const llmResponse = await ai.generate({
+      model: 'googleai/gemini-1.5-flash',
+      prompt: `You are a business intelligence report writer. Create a comprehensive monthly business trends report for ${input.month}.
+
+Use the following analysis as the foundation for your report:
+${input.analysisMarkdown}
+
+Structure the report with the following sections:
+
+# 📊 Monthly Business Trends Report - ${input.month}
+
+## Executive Summary
+- 3-4 key highlights from the month
+- Major market movements and their implications
+- Overall business climate assessment
+
+## Top Trending Topics
+- Extract and summarize the most significant trends
+- Explain why each trend matters for businesses
+- Include specific examples and data points where available
+
+## Industry Insights
+- Sector-specific trends and developments
+- Cross-industry patterns and connections
+- Emerging technologies and their business impact
+
+## Actionable Recommendations
+- Specific steps businesses can take this month
+- Quick wins and low-hanging fruit opportunities
+- Medium-term strategic considerations
+
+## Market Outlook
+- What to watch for in the coming month
+- Potential opportunities and threats
+- Key metrics to monitor
+
+## Resources & Next Steps
+- Relevant tools, platforms, or services mentioned
+- Further reading or research recommendations
+- Implementation guidance
+
+Make the report professional yet accessible, with specific actionable insights that small to medium business owners can implement. Include relevant emojis to make it engaging while maintaining professionalism.`,
+    });
+
+    return {
+      reportMarkdown: llmResponse.text(),
+    };
   }
 );
+
+export async function generateReport(input: GenerateReportInput): Promise<GenerateReportOutput> {
+  return generateReportFlow(input);
+}
