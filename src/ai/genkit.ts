@@ -1,6 +1,6 @@
 
 import { genkit } from 'genkit';
-import { googleAI } from 'genkitx-google-ai';
+import { googleAI } from '@genkit-ai/googleai';
 
 // Validate that the API key is available
 const apiKey = process.env.GOOGLE_GENAI_API_KEY;
