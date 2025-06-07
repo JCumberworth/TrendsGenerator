@@ -9,38 +9,73 @@ import { formatISO, format } from 'date-fns';
 async function fetchTrendsFromAPI(): Promise<Trend[]> {
   const trends: Trend[] = [];
   
-  // Generate trends for different business categories
-  const categories = [
-    'artificial intelligence business',
-    'remote work tools',
-    'sustainable business',
-    'e-commerce automation',
-    'customer experience technology'
+  // Specific prompts targeting actionable business opportunities
+  const targetedPrompts = [
+    {
+      keyword: 'YouTube creator economy pain points',
+      category: 'Creator Tools/SaaS',
+      context: 'Tools that help YouTubers with editing, analytics, sponsorship management, or audience engagement'
+    },
+    {
+      keyword: 'Reddit business automation trending',
+      category: 'Social Media/Automation',
+      context: 'Services that help businesses manage Reddit presence, community building, or customer support on Reddit'
+    },
+    {
+      keyword: 'TikTok small business marketing gaps',
+      category: 'Marketing/Social Media',
+      context: 'Apps or services that help small businesses create, schedule, or analyze TikTok content effectively'
+    },
+    {
+      keyword: 'remote team collaboration frustrations',
+      category: 'Productivity/Remote Work',
+      context: 'Solutions for specific remote work challenges like async communication, time zone management, or virtual team building'
+    },
+    {
+      keyword: 'AI customer service implementation challenges',
+      category: 'AI/Customer Service',
+      context: 'Tools that make AI chatbot setup easier for non-technical business owners or improve existing AI customer service'
+    },
+    {
+      keyword: 'sustainable packaging startup opportunities',
+      category: 'Sustainability/E-commerce',
+      context: 'Services that help e-commerce businesses find, source, or implement eco-friendly packaging solutions'
+    },
+    {
+      keyword: 'local business digital transformation needs',
+      category: 'Local Business/Technology',
+      context: 'Apps or services that help traditional local businesses (restaurants, retail, services) adopt digital tools'
+    },
+    {
+      keyword: 'freelancer financial management pain points',
+      category: 'Fintech/Freelancing',
+      context: 'Tools for freelancers to handle invoicing, tax preparation, expense tracking, or irregular income management'
+    }
   ];
 
-  for (const category of categories) {
+  for (const prompt of targetedPrompts) {
     try {
-      const result = await generatePotentialTrends({ topicKeyword: category });
+      const result = await generatePotentialTrends({ topicKeyword: `${prompt.keyword} - Focus on specific problems that could be solved with a new app, SaaS tool, or service. Think about gaps in existing solutions and emerging needs in ${prompt.context}` });
       
       // Convert potential trends to Trend objects
       const categoryTrends: Trend[] = result.potentialTrends.map((trendName, index) => ({
-        id: `fresh-${category.replace(/\s+/g, '-')}-${index}`,
+        id: `actionable-${prompt.keyword.replace(/\s+/g, '-')}-${index}`,
         topic_name: trendName,
         source_url: `https://trends.google.com/trends/explore?q=${encodeURIComponent(trendName)}`,
-        popularity_metric: 'AI-generated trend analysis',
-        category: category.charAt(0).toUpperCase() + category.slice(1),
+        popularity_metric: 'Actionable business opportunity identified',
+        category: prompt.category,
         date_collected: formatISO(new Date()),
-        source_type: 'ai_generated' as any,
+        source_type: 'targeted_analysis' as any,
         sentiment_score: 'Positive'
       }));
       
-      trends.push(...categoryTrends.slice(0, 2)); // Take 2 trends per category
+      trends.push(...categoryTrends.slice(0, 1)); // Take 1 trend per prompt to avoid overwhelming
     } catch (error) {
-      console.error(`Error generating trends for ${category}:`, error);
+      console.error(`Error generating trends for ${prompt.keyword}:`, error);
     }
   }
 
-  return trends.slice(0, 10); // Limit to 10 fresh trends
+  return trends.slice(0, 8); // Limit to 8 fresh actionable trends
 }
 
 async function generateDailyReport(): Promise<void> {
