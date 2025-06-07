@@ -5,8 +5,7 @@ import { Search } from "lucide-react";
 import { mockReports } from '@/lib/mock-data';
 
 async function getReports(): Promise<Report[]> {
-  // Use mock data directly during build
-  return mockReports;
+  return getReportsData();
 }
 
 export default async function ReportsPage() {

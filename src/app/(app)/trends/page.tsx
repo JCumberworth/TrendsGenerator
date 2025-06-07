@@ -2,11 +2,11 @@ import { TrendCard } from '@/components/trends/trend-card';
 import type { Trend } from '@/types';
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
-import { mockTrends } from '@/lib/mock-data';
+import { getTrendsData } from '@/lib/data-store';
 
 async function getTrends(): Promise<Trend[]> {
-  // Use mock data directly during build
-  return mockTrends;
+  // Use fresh data from daily updates
+  return getTrendsData();
 }
 
 export default async function TrendsPage() {

@@ -2,14 +2,17 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import type { Trend, Report } from '@/types';
-import { mockTrends, mockReports } from '@/lib/mock-data';
+import { getTrendsData, getReportsData } from '@/lib/data-store';
+
 import { TrendCard } from '@/components/trends/trend-card';
 import { ReportCard } from '@/components/reports/report-card';
 import { ChevronRight } from 'lucide-react';
 
 async function getData() {
-  // Directly use the mock data during build to avoid fetch failures
-  return { trendsData: mockTrends, reportsData: mockReports };
+  // Get fresh data from daily updates, fallback to mock data if needed
+  const trendsData = await getTrendsData();
+  const reportsData = await getReportsData();
+  return { trendsData, reportsData };
 }
 
 export default async function DashboardPage() {

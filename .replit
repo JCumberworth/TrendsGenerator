@@ -10,3 +10,14 @@ run = ["sh", "-c", "npm run dev"]
 [[ports]]
 localPort = 9002
 externalPort = 80
+
+[workflows]
+
+[[workflows.workflow]]
+name = "Daily Data Refresh"
+author = 38353568
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npx tsx scripts/fetch-daily-trends.ts"
