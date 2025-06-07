@@ -1,10 +1,45 @@
+
 import { readFileSync, writeFileSync, existsSync } from 'fs';
 import { join } from 'path';
 import type { Trend, Report } from '@/types';
+import { 
+  getTrendsFromDB, 
+  saveTrendsToDB, 
+  getReportsFromDB, 
+  saveReportToDB,
+  getReportByIdFromDB,
+  initializeTables 
+} from './db-models';
 
 const DATA_DIR = join(process.cwd(), 'data');
 
-export function getTrendsData(): Trend[] {
+// Initialize database on first import
+let dbInitialized = false;
+
+async function ensureDbInitialized() {
+  if (!dbInitialized && process.env.DATABASE_URL) {
+    try {
+      await initializeTables();
+      dbInitialized = true;
+    } catch (error) {
+      console.error('Failed to initialize database:', error);
+    }
+  }
+}
+
+export async function getTrendsData(): Promise<Trend[]> {
+  await ensureDbInitialized();
+  
+  // Try database first if available
+  if (process.env.DATABASE_URL) {
+    try {
+      return await getTrendsFromDB();
+    } catch (error) {
+      console.error('Error reading trends from database, falling back to file:', error);
+    }
+  }
+
+  // Fallback to file system
   try {
     const filePath = join(DATA_DIR, 'trends.json');
     if (!existsSync(filePath)) {
@@ -27,7 +62,19 @@ export function getTrendsData(): Trend[] {
   }
 }
 
-export function getReportsData(): Report[] {
+export async function getReportsData(): Promise<Report[]> {
+  await ensureDbInitialized();
+  
+  // Try database first if available
+  if (process.env.DATABASE_URL) {
+    try {
+      return await getReportsFromDB();
+    } catch (error) {
+      console.error('Error reading reports from database, falling back to file:', error);
+    }
+  }
+
+  // Fallback to file system
   try {
     const filePath = join(DATA_DIR, 'reports.json');
     if (!existsSync(filePath)) {
@@ -41,7 +88,20 @@ export function getReportsData(): Report[] {
   }
 }
 
-export function saveTrendsData(trends: Trend[]): void {
+export async function saveTrendsData(trends: Trend[]): Promise<void> {
+  await ensureDbInitialized();
+  
+  // Save to database if available
+  if (process.env.DATABASE_URL) {
+    try {
+      await saveTrendsToDB(trends);
+      return;
+    } catch (error) {
+      console.error('Error saving trends to database, falling back to file:', error);
+    }
+  }
+
+  // Fallback to file system
   try {
     const filePath = join(DATA_DIR, 'trends.json');
     const dataToSave = {
@@ -54,11 +114,44 @@ export function saveTrendsData(trends: Trend[]): void {
   }
 }
 
-export function saveReportsData(reports: Report[]): void {
+export async function saveReportsData(reports: Report[]): Promise<void> {
+  await ensureDbInitialized();
+  
+  // Save to database if available
+  if (process.env.DATABASE_URL) {
+    try {
+      // For multiple reports, save each one individually
+      for (const report of reports) {
+        await saveReportToDB(report);
+      }
+      return;
+    } catch (error) {
+      console.error('Error saving reports to database, falling back to file:', error);
+    }
+  }
+
+  // Fallback to file system
   try {
     const filePath = join(DATA_DIR, 'reports.json');
     writeFileSync(filePath, JSON.stringify(reports, null, 2));
   } catch (error) {
     console.error('Error saving reports data:', error);
   }
+}
+
+export async function getReportById(id: string): Promise<Report | null> {
+  await ensureDbInitialized();
+  
+  // Try database first if available
+  if (process.env.DATABASE_URL) {
+    try {
+      return await getReportByIdFromDB(id);
+    } catch (error) {
+      console.error('Error reading report from database, falling back to file:', error);
+    }
+  }
+
+  // Fallback to file system
+  const reports = await getReportsData();
+  return reports.find(report => report.id === id) || null;
 }
