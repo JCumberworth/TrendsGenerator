@@ -4,7 +4,7 @@
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from "@/components/ui/input";
-import { Search, Lightbulb, Calendar, Trash2 } from "lucide-react";
+import { Search, Lightbulb, Calendar, Trash2, Users, Code, Check } from "lucide-react";
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { formatDistanceToNow } from 'date-fns';
@@ -15,6 +15,9 @@ interface SavedAnalysis {
   analysisMarkdown: string;
   createdAt: string;
   keyword?: string;
+  targetAudience?: string | null;
+  projectOutline?: string | null;
+  isOutlineApproved?: boolean;
 }
 
 export default function AnalyzedIdeasPage() {
@@ -106,6 +109,18 @@ export default function AnalyzedIdeasPage() {
                               {analysis.keyword}
                             </Badge>
                           )}
+                          {analysis.isOutlineApproved && (
+                            <Badge variant="default" className="text-xs bg-green-500">
+                              <Check className="h-2 w-2 mr-1" />
+                              Complete
+                            </Badge>
+                          )}
+                          {analysis.projectOutline && !analysis.isOutlineApproved && (
+                            <Badge variant="outline" className="text-xs">
+                              <Code className="h-2 w-2 mr-1" />
+                              Draft
+                            </Badge>
+                          )}
                         </div>
                       </div>
                       <Button
@@ -137,19 +152,54 @@ export default function AnalyzedIdeasPage() {
                     Analyzed {formatDistanceToNow(new Date(selectedAnalysis.createdAt), { addSuffix: true })}
                   </CardDescription>
                 </CardHeader>
-                <CardContent>
-                  <div 
-                    className="prose prose-sm max-w-none prose-headings:text-foreground prose-p:text-foreground prose-strong:text-foreground prose-ul:text-foreground prose-ol:text-foreground"
-                    dangerouslySetInnerHTML={{ 
-                      __html: selectedAnalysis.analysisMarkdown
-                        .replace(/\n/g, '<br>')
-                        .replace(/## (.*?)<br>/g, '<h3 class="font-semibold text-lg mt-4 mb-2">$1</h3>')
-                        .replace(/### (.*?)<br>/g, '<h4 class="font-medium text-base mt-3 mb-2">$1</h4>')
-                        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                        .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                        .replace(/- (.*?)<br>/g, '<li class="ml-4">$1</li>')
-                    }}
-                  />
+                <CardContent className="space-y-6">
+                  <div>
+                    <h3 className="font-semibold text-base mb-3">Business Analysis</h3>
+                    <div 
+                      className="prose prose-sm max-w-none prose-headings:text-foreground prose-p:text-foreground prose-strong:text-foreground prose-ul:text-foreground prose-ol:text-foreground"
+                      dangerouslySetInnerHTML={{ 
+                        __html: selectedAnalysis.analysisMarkdown
+                          .replace(/\n/g, '<br>')
+                          .replace(/## (.*?)<br>/g, '<h3 class="font-semibold text-lg mt-4 mb-2">$1</h3>')
+                          .replace(/### (.*?)<br>/g, '<h4 class="font-medium text-base mt-3 mb-2">$1</h4>')
+                          .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                          .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                          .replace(/- (.*?)<br>/g, '<li class="ml-4">$1</li>')
+                      }}
+                    />
+                  </div>
+
+                  {selectedAnalysis.targetAudience && (
+                    <div>
+                      <h3 className="font-semibold text-base mb-2 flex items-center">
+                        <Users className="h-4 w-4 mr-2" />
+                        Target Audience
+                      </h3>
+                      <div className="bg-muted p-3 rounded-md">
+                        <pre className="whitespace-pre-wrap break-words text-sm">{selectedAnalysis.targetAudience}</pre>
+                      </div>
+                    </div>
+                  )}
+
+                  {selectedAnalysis.projectOutline && (
+                    <div>
+                      <div className="flex items-center justify-between mb-2">
+                        <h3 className="font-semibold text-base flex items-center">
+                          <Code className="h-4 w-4 mr-2" />
+                          Project Outline
+                        </h3>
+                        {selectedAnalysis.isOutlineApproved && (
+                          <Badge variant="default" className="bg-green-500">
+                            <Check className="h-3 w-3 mr-1" />
+                            Approved
+                          </Badge>
+                        )}
+                      </div>
+                      <div className="bg-card p-3 rounded-md border">
+                        <pre className="whitespace-pre-wrap break-words text-sm">{selectedAnalysis.projectOutline}</pre>
+                      </div>
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             ) : (
