@@ -1,4 +1,3 @@
-
 "use client";
 
 import { SidebarTrigger } from "@/components/ui/sidebar";
@@ -7,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
+import Link from "next/link";
+import { Lightbulb } from "lucide-react";
 
 // Helper function to derive a user-friendly title from the pathname
 const getTitleFromPathname = (pathname: string): string => {
@@ -17,6 +18,7 @@ const getTitleFromPathname = (pathname: string): string => {
     return "Report Details";
   }
   if (pathname === "/ideate-trends") return "Explore Opportunities";
+  if (pathname === "/analyzed-ideas") return "Analyzed Ideas";
   return "TrendWatch AI"; // Default title
 };
 
@@ -52,6 +54,16 @@ export function AppHeader() {
         <h1 className="font-headline text-xl font-semibold tracking-tight text-foreground">
           {pageTitle}
         </h1>
+        <nav className="md:flex gap-6 hidden">
+          <Link href="/ideate-trends" className="flex items-center gap-2 hover:text-primary transition-colors">
+            <Lightbulb className="h-4 w-4" />
+            Brainstorm Ideas
+          </Link>
+          <Link href="/analyzed-ideas" className="flex items-center gap-2 hover:text-primary transition-colors">
+            <Lightbulb className="h-4 w-4" />
+            Analyzed Ideas
+          </Link>
+        </nav>
       </div>
       <Button
         variant="ghost"

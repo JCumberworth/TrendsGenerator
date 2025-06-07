@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, type FormEvent } from 'react';
@@ -16,10 +15,10 @@ export default function IdeateTrendsPage() {
   const [potentialBusinessIdeas, setPotentialBusinessIdeas] = useState<string[]>([]);
   const [selectedIdea, setSelectedIdea] = useState<string | null>(null);
   const [analysisResult, setAnalysisResult] = useState<string | null>(null);
-  
+
   const [isGeneratingIdeas, setIsGeneratingIdeas] = useState<boolean>(false);
   const [isAnalyzingIdea, setIsAnalyzingIdea] = useState<boolean>(false);
-  
+
   const [ideasError, setIdeasError] = useState<string | null>(null);
   const [analysisError, setAnalysisError] = useState<string | null>(null);
 
@@ -82,11 +81,25 @@ export default function IdeateTrendsPage() {
     }
   };
 
+  const saveAnalysisToLocalStorage = (ideaName: string, analysis: string, keyword: string) => {
+    const savedAnalysis = {
+      id: `analysis-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+      trendName: ideaName,
+      analysisMarkdown: analysis,
+      createdAt: new Date().toISOString(),
+      keyword: keyword
+    };
+
+    const existingAnalyses = JSON.parse(localStorage.getItem('savedAnalyses') || '[]');
+    const updatedAnalyses = [savedAnalysis, ...existingAnalyses];
+    localStorage.setItem('savedAnalyses', JSON.stringify(updatedAnalyses));
+  };
+
   const handleAnalyzeIdea = async (ideaName: string) => {
     setSelectedIdea(ideaName);
     setIsAnalyzingIdea(true);
-    setAnalysisResult(null);
     setAnalysisError(null);
+    setAnalysisResult(null);
 
     try {
       const response = await fetch('/api/ai/analyze-idea', {
@@ -94,22 +107,29 @@ export default function IdeateTrendsPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ trendName: ideaName }),
       });
+
       if (!response.ok) {
-        throw new Error(`Request failed with status ${response.status}`);
+        throw new Error(`Failed to analyze idea: ${response.status}`);
       }
-      const result: AnalyzePotentialTrendOutput = await response.json();
-      setAnalysisResult(result.analysisMarkdown);
+
+      const data: AnalyzePotentialTrendOutput = await response.json();
+      setAnalysisResult(data.analysisMarkdown);
+
+      // Save the analysis to localStorage
+      saveAnalysisToLocalStorage(ideaName, data.analysisMarkdown, topicKeyword);
+
       toast({
         title: "Analysis Complete",
-        description: `Showing analysis for "${ideaName}".`,
+        description: `Analysis saved! View it in Analyzed Ideas.`,
       });
     } catch (error) {
-      console.error("Error analyzing potential idea:", error);
-      const errorMessage = error instanceof Error ? error.message : "An unknown error occurred.";
-      setAnalysisError(`Failed to analyze idea: ${errorMessage}`);
-       toast({
+      console.error('Error analyzing idea:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+      setAnalysisError(errorMessage);
+
+      toast({
         title: "Analysis Failed",
-        description: `Could not analyze the idea "${ideaName}": ${errorMessage}`,
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {
@@ -123,7 +143,7 @@ export default function IdeateTrendsPage() {
         <h1 className="font-headline text-3xl font-bold text-foreground">Explore Business Opportunities</h1>
         <p className="text-muted-foreground mt-1">Get AI-powered ideas and analysis to help your business grow.</p>
       </header>
-      
+
       <Card className="shadow-lg">
         <CardHeader>
           <CardTitle className="flex items-center">
