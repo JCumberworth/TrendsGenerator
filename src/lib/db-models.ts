@@ -4,30 +4,40 @@ import type { Trend, Report } from '@/types';
 
 // Initialize database tables
 export async function initializeTables() {
-  // Create trends table
-  await query(`
-    CREATE TABLE IF NOT EXISTS trends (
-      id SERIAL PRIMARY KEY,
-      topic_name VARCHAR(255) NOT NULL,
-      category VARCHAR(100),
-      search_volume INTEGER,
-      trend_score DECIMAL(5,2),
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    )
-  `);
+  if (!process.env.DATABASE_URL) {
+    console.log('DATABASE_URL not set, skipping database initialization');
+    return;
+  }
 
-  // Create reports table
-  await query(`
-    CREATE TABLE IF NOT EXISTS reports (
-      id SERIAL PRIMARY KEY,
-      month VARCHAR(50) NOT NULL,
-      report_markdown TEXT NOT NULL,
-      generated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    )
-  `);
+  try {
+    // Create trends table
+    await query(`
+      CREATE TABLE IF NOT EXISTS trends (
+        id SERIAL PRIMARY KEY,
+        topic_name VARCHAR(255) NOT NULL,
+        category VARCHAR(100),
+        search_volume INTEGER,
+        trend_score DECIMAL(5,2),
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
 
-  console.log('Database tables initialized');
+    // Create reports table
+    await query(`
+      CREATE TABLE IF NOT EXISTS reports (
+        id SERIAL PRIMARY KEY,
+        month VARCHAR(50) NOT NULL,
+        report_markdown TEXT NOT NULL,
+        generated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+
+    console.log('Database tables initialized successfully');
+  } catch (error) {
+    console.error('Error initializing database tables:', error);
+    throw error;
+  }
 }
 
 // Trend operations
