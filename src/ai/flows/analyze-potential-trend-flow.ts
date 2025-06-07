@@ -59,7 +59,7 @@ Provide specific, actionable insights rather than generic advice. Focus on pract
     });
 
     return {
-      analysisMarkdown: llmResponse.text(),
+      analysisMarkdown: llmResponse.text,
     };
   }
 );

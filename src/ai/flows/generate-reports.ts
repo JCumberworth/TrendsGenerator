@@ -66,7 +66,7 @@ Make the report professional yet accessible, with specific actionable insights t
     });
 
     return {
-      reportMarkdown: llmResponse.text(),
+      reportMarkdown: llmResponse.text,
     };
   }
 );

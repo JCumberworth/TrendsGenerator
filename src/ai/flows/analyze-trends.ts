@@ -61,7 +61,7 @@ Focus on actionable insights that business owners can implement. Be specific and
     });
 
     return {
-      analysisMarkdown: llmResponse.text(),
+      analysisMarkdown: llmResponse.text,
     };
   }
 );

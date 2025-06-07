@@ -41,7 +41,7 @@ Now generate trends for: ${input.topicKeyword}`,
     });
 
     // Split the response into individual trends and clean them up
-    const trends = llmResponse.text()
+    const trends = llmResponse.text
       .split('\n')
       .map(trend => trend.trim())
       .filter(trend => trend.length > 0 && !trend.startsWith('-') && !trend.match(/^\d+\./))
