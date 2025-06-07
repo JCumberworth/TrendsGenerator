@@ -20,7 +20,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
       <SidebarProvider defaultOpen={true}>
-        <div className="flex min-h-screen w-full flex-col bg-muted/40">
+        <div className="flex min-h-screen w-full">
           <Sidebar variant="sidebar" collapsible="icon" side="left">
             <SidebarHeader className="p-4">
               <Link href="/dashboard" className="flex items-center gap-2 font-headline text-lg font-semibold text-primary">
@@ -66,34 +66,14 @@ export default function AppLayout({ children }: { children: ReactNode }) {
             </SidebarContent>
             <SidebarFooter className="p-2">
                {/* Placeholder for potential future elements like settings or logout */}
-               {/* 
-                <SidebarMenu>
-                <SidebarMenuItem>
-                  <SidebarMenuButton asChild tooltip="Settings">
-                    <Link href="/settings">
-                      <Settings />
-                      <span>Settings</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-                <SidebarMenuItem>
-                  <Button variant="ghost" className="w-full justify-start gap-2 px-2" asChild>
-                     <Link href="/logout">  
-                        <LogOut />
-                        <span>Logout</span>
-                     </Link>
-                  </Button>
-                </SidebarMenuItem>
-              </SidebarMenu> 
-              */}
             </SidebarFooter>
           </Sidebar>
-          <div className="flex flex-1 flex-col">
+          <SidebarInset>
             <AppHeader />
             <main className="flex-1 p-4 md:p-6">
               {children}
             </main>
-          </div>
+          </SidebarInset>
         </div>
       </SidebarProvider>
     </ThemeProvider>

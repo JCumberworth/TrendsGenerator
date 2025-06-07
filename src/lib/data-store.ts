@@ -1,88 +1,51 @@
-
-import { writeFile, readFile, mkdir } from 'fs/promises';
-import { existsSync } from 'fs';
-import path from 'path';
+import { readFileSync, writeFileSync, existsSync } from 'fs';
+import { join } from 'path';
 import type { Trend, Report } from '@/types';
-import { mockTrends, mockReports } from './mock-data';
 
-const DATA_DIR = path.join(process.cwd(), 'data');
-const TRENDS_FILE = path.join(DATA_DIR, 'trends.json');
-const REPORTS_FILE = path.join(DATA_DIR, 'reports.json');
+const DATA_DIR = join(process.cwd(), 'data');
 
-interface DataStore {
-  trends: Trend[];
-  lastUpdated: string;
-}
-
-interface ReportsStore {
-  reports: Report[];
-  lastUpdated: string;
-}
-
-export async function ensureDataDirectory() {
-  if (!existsSync(DATA_DIR)) {
-    await mkdir(DATA_DIR, { recursive: true });
-  }
-}
-
-export async function saveTrendsData(trends: Trend[]): Promise<void> {
-  await ensureDataDirectory();
-  const dataStore: DataStore = {
-    trends,
-    lastUpdated: new Date().toISOString(),
-  };
-  await writeFile(TRENDS_FILE, JSON.stringify(dataStore, null, 2));
-}
-
-export async function getTrendsData(): Promise<Trend[]> {
+export function getTrendsData(): Trend[] {
   try {
-    if (!existsSync(TRENDS_FILE)) {
-      // If no data file exists, return mock data and create initial file
-      await saveTrendsData(mockTrends);
-      return mockTrends;
+    const filePath = join(DATA_DIR, 'trends.json');
+    if (!existsSync(filePath)) {
+      return [];
     }
-
-    const fileContent = await readFile(TRENDS_FILE, 'utf-8');
-    const dataStore: DataStore = JSON.parse(fileContent);
-    
-    // Check if data is from today
-    const lastUpdated = new Date(dataStore.lastUpdated);
-    const today = new Date();
-    const isToday = lastUpdated.toDateString() === today.toDateString();
-    
-    if (!isToday && dataStore.trends.length === 0) {
-      // If data is old and empty, return mock data
-      return mockTrends;
-    }
-    
-    return dataStore.trends;
+    const data = readFileSync(filePath, 'utf-8');
+    return JSON.parse(data);
   } catch (error) {
     console.error('Error reading trends data:', error);
-    return mockTrends;
+    return [];
   }
 }
 
-export async function saveReportsData(reports: Report[]): Promise<void> {
-  await ensureDataDirectory();
-  const reportsStore: ReportsStore = {
-    reports,
-    lastUpdated: new Date().toISOString(),
-  };
-  await writeFile(REPORTS_FILE, JSON.stringify(reportsStore, null, 2));
-}
-
-export async function getReportsData(): Promise<Report[]> {
+export function getReportsData(): Report[] {
   try {
-    if (!existsSync(REPORTS_FILE)) {
-      await saveReportsData(mockReports);
-      return mockReports;
+    const filePath = join(DATA_DIR, 'reports.json');
+    if (!existsSync(filePath)) {
+      return [];
     }
-
-    const fileContent = await readFile(REPORTS_FILE, 'utf-8');
-    const reportsStore: ReportsStore = JSON.parse(fileContent);
-    return reportsStore.reports;
+    const data = readFileSync(filePath, 'utf-8');
+    return JSON.parse(data);
   } catch (error) {
     console.error('Error reading reports data:', error);
-    return mockReports;
+    return [];
+  }
+}
+
+export function saveTrendsData(trends: Trend[]): void {
+  try {
+    const filePath = join(DATA_DIR, 'trends.json');
+    writeFileSync(filePath, JSON.stringify(trends, null, 2));
+  } catch (error) {
+    console.error('Error saving trends data:', error);
+  }
+}
+
+export function saveReportsData(reports: Report[]): void {
+  try {
+    const filePath = join(DATA_DIR, 'reports.json');
+    writeFileSync(filePath, JSON.stringify(reports, null, 2));
+  } catch (error) {
+    console.error('Error saving reports data:', error);
   }
 }
