@@ -12,6 +12,7 @@ localPort = 9002
 externalPort = 80
 
 [workflows]
+runButton = "Start Application"
 
 [[workflows.workflow]]
 name = "Daily Data Refresh"
@@ -21,3 +22,12 @@ mode = "sequential"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "npx tsx scripts/fetch-daily-trends.ts"
+
+[[workflows.workflow]]
+name = "Start Application"
+author = 38353568
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run dev"
