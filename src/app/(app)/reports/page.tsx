@@ -2,7 +2,7 @@ import { ReportCard } from '@/components/reports/report-card';
 import type { Report } from '@/types';
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
-import { mockReports } from '@/lib/mock-data';
+import { getReportsData } from '@/lib/data-store';
 
 async function getReports(): Promise<Report[]> {
   return getReportsData();
