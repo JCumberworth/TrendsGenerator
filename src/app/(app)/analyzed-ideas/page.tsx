@@ -4,10 +4,13 @@
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from "@/components/ui/input";
-import { Search, Lightbulb, Calendar, Trash2, Users, Code, Check } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
+import { Search, Lightbulb, Calendar, Trash2, Users, Code, Check, Edit, Loader2, AlertTriangle } from "lucide-react";
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { formatDistanceToNow } from 'date-fns';
+import { useToast } from "@/hooks/use-toast";
+import type { GenerateProjectOutlineOutput } from '@/ai/flows/generate-project-outline-flow';
 
 interface SavedAnalysis {
   id: string;
@@ -24,6 +27,15 @@ export default function AnalyzedIdeasPage() {
   const [analyses, setAnalyses] = useState<SavedAnalysis[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedAnalysis, setSelectedAnalysis] = useState<SavedAnalysis | null>(null);
+  
+  // Outline generation states
+  const [isGeneratingOutline, setIsGeneratingOutline] = useState<boolean>(false);
+  const [isEditingOutline, setIsEditingOutline] = useState<boolean>(false);
+  const [editableOutline, setEditableOutline] = useState<string>('');
+  const [editsRemaining, setEditsRemaining] = useState<number>(2);
+  const [outlineError, setOutlineError] = useState<string | null>(null);
+
+  const { toast } = useToast();
 
   useEffect(() => {
     // Load saved analyses from localStorage
@@ -45,6 +57,113 @@ export default function AnalyzedIdeasPage() {
     if (selectedAnalysis?.id === id) {
       setSelectedAnalysis(null);
     }
+  };
+
+  const updateAnalysisInStorage = (updatedAnalysis: SavedAnalysis) => {
+    const updatedAnalyses = analyses.map(analysis => 
+      analysis.id === updatedAnalysis.id ? updatedAnalysis : analysis
+    );
+    setAnalyses(updatedAnalyses);
+    localStorage.setItem('savedAnalyses', JSON.stringify(updatedAnalyses));
+    setSelectedAnalysis(updatedAnalysis);
+  };
+
+  const handleGenerateProjectOutline = async () => {
+    if (!selectedAnalysis) return;
+
+    setIsGeneratingOutline(true);
+    setOutlineError(null);
+
+    try {
+      const response = await fetch('/api/ai/generate-project-outline', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          trendName: selectedAnalysis.trendName,
+          analysisMarkdown: selectedAnalysis.analysisMarkdown
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to generate project outline: ${response.status}`);
+      }
+
+      const data: GenerateProjectOutlineOutput = await response.json();
+      
+      const updatedAnalysis = {
+        ...selectedAnalysis,
+        targetAudience: data.targetAudience,
+        projectOutline: data.projectOutline,
+        isOutlineApproved: false
+      };
+
+      updateAnalysisInStorage(updatedAnalysis);
+      setEditableOutline(data.projectOutline);
+      setEditsRemaining(2);
+
+      toast({
+        title: "Project Outline Generated!",
+        description: "You can now edit and customize the outline before approval.",
+      });
+    } catch (error) {
+      console.error('Error generating project outline:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+      setOutlineError(errorMessage);
+
+      toast({
+        title: "Outline Generation Failed",
+        description: errorMessage,
+        variant: "destructive",
+      });
+    } finally {
+      setIsGeneratingOutline(false);
+    }
+  };
+
+  const handleEditOutline = () => {
+    if (editsRemaining > 0 && selectedAnalysis?.projectOutline) {
+      setEditableOutline(selectedAnalysis.projectOutline);
+      setIsEditingOutline(true);
+    }
+  };
+
+  const handleSaveOutlineEdit = () => {
+    if (!selectedAnalysis) return;
+
+    const updatedAnalysis = {
+      ...selectedAnalysis,
+      projectOutline: editableOutline
+    };
+
+    updateAnalysisInStorage(updatedAnalysis);
+    setIsEditingOutline(false);
+    setEditsRemaining(prev => prev - 1);
+
+    toast({
+      title: "Outline Updated",
+      description: `Edit saved. You have ${editsRemaining - 1} edit${editsRemaining - 1 !== 1 ? 's' : ''} remaining.`,
+    });
+  };
+
+  const handleCancelOutlineEdit = () => {
+    setEditableOutline(selectedAnalysis?.projectOutline || '');
+    setIsEditingOutline(false);
+  };
+
+  const handleApproveOutline = () => {
+    if (!selectedAnalysis) return;
+
+    const updatedAnalysis = {
+      ...selectedAnalysis,
+      isOutlineApproved: true
+    };
+
+    updateAnalysisInStorage(updatedAnalysis);
+
+    toast({
+      title: "Project Outline Approved!",
+      description: "Your project outline has been approved and saved.",
+    });
   };
 
   return (
@@ -181,6 +300,32 @@ export default function AnalyzedIdeasPage() {
                     </div>
                   )}
 
+                  {/* Project Outline Generation */}
+                  {!selectedAnalysis.projectOutline && !isGeneratingOutline && (
+                    <div className="flex justify-center pt-4">
+                      <Button onClick={handleGenerateProjectOutline} className="bg-primary hover:bg-primary/90">
+                        <Code className="mr-2 h-4 w-4" />
+                        Generate Project Outline
+                      </Button>
+                    </div>
+                  )}
+
+                  {isGeneratingOutline && (
+                    <div className="flex items-center justify-center p-8 text-muted-foreground">
+                      <Loader2 className="mr-2 h-6 w-6 animate-spin" />
+                      Generating project outline...
+                    </div>
+                  )}
+
+                  {outlineError && (
+                    <div className="text-destructive p-4 border border-destructive/50 rounded-md bg-destructive/10">
+                      <p className="flex items-center font-semibold">
+                          <AlertTriangle className="mr-2 h-5 w-5" /> Error Generating Outline
+                      </p>
+                      <p className="mt-1 text-sm">{outlineError}</p>
+                    </div>
+                  )}
+
                   {selectedAnalysis.projectOutline && (
                     <div>
                       <div className="flex items-center justify-between mb-2">
@@ -188,16 +333,72 @@ export default function AnalyzedIdeasPage() {
                           <Code className="h-4 w-4 mr-2" />
                           Project Outline
                         </h3>
-                        {selectedAnalysis.isOutlineApproved && (
-                          <Badge variant="default" className="bg-green-500">
-                            <Check className="h-3 w-3 mr-1" />
-                            Approved
-                          </Badge>
-                        )}
+                        <div className="flex items-center gap-2">
+                          {!selectedAnalysis.isOutlineApproved && (
+                            <>
+                              <Badge variant="secondary">
+                                {editsRemaining} edit{editsRemaining !== 1 ? 's' : ''} remaining
+                              </Badge>
+                              {!isEditingOutline && editsRemaining > 0 && (
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={handleEditOutline}
+                                >
+                                  <Edit className="mr-1 h-3 w-3" />
+                                  Edit
+                                </Button>
+                              )}
+                            </>
+                          )}
+                          {selectedAnalysis.isOutlineApproved && (
+                            <Badge variant="default" className="bg-green-500">
+                              <Check className="h-3 w-3 mr-1" />
+                              Approved
+                            </Badge>
+                          )}
+                        </div>
                       </div>
-                      <div className="bg-card p-3 rounded-md border">
-                        <pre className="whitespace-pre-wrap break-words text-sm">{selectedAnalysis.projectOutline}</pre>
-                      </div>
+
+                      {isEditingOutline ? (
+                        <div className="space-y-3">
+                          <Textarea
+                            value={editableOutline}
+                            onChange={(e) => setEditableOutline(e.target.value)}
+                            className="min-h-[400px] font-mono text-sm"
+                            placeholder="Edit your project outline..."
+                          />
+                          <div className="flex gap-2">
+                            <Button onClick={handleSaveOutlineEdit} size="sm">
+                              <Check className="mr-1 h-3 w-3" />
+                              Save Changes
+                            </Button>
+                            <Button 
+                              variant="outline" 
+                              onClick={handleCancelOutlineEdit} 
+                              size="sm"
+                            >
+                              Cancel
+                            </Button>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="bg-card p-3 rounded-md border">
+                          <pre className="whitespace-pre-wrap break-words text-sm">{selectedAnalysis.projectOutline}</pre>
+                        </div>
+                      )}
+
+                      {!selectedAnalysis.isOutlineApproved && !isEditingOutline && selectedAnalysis.projectOutline && (
+                        <div className="flex justify-center pt-4">
+                          <Button 
+                            onClick={handleApproveOutline}
+                            className="bg-green-600 hover:bg-green-700"
+                          >
+                            <Check className="mr-2 h-4 w-4" />
+                            Approve Project Outline
+                          </Button>
+                        </div>
+                      )}
                     </div>
                   )}
                 </CardContent>

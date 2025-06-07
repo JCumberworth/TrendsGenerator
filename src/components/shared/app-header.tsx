@@ -63,6 +63,10 @@ export function AppHeader() {
             <Lightbulb className="h-4 w-4" />
             Analyzed Ideas
           </Link>
+           <Link href="/project-outlines" className="flex items-center gap-2 hover:text-primary transition-colors">
+            <Lightbulb className="h-4 w-4" />
+            Project Outlines
+          </Link>
         </nav>
       </div>
       <Button
