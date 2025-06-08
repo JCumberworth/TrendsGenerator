@@ -36,9 +36,7 @@ ${input.analysisMarkdown}`;
       prompt += `\n\nUser Revision Request: ${input.editPrompt}\n\nPlease revise the project outline based on this feedback while maintaining the same structure.`;
     }
 
-    const llmResponse = await ai.generate({
-      model: 'googleai/gemini-1.5-flash',
-      prompt
+    prompt += `
 
 Please provide your response in two sections:
 
@@ -87,7 +85,11 @@ Create a comprehensive technical project outline for building an MVP of "${input
 - How to deploy on Replit
 - Considerations for scaling
 
-Keep the outline practical and achievable for a solo developer or small team working on Replit.`,
+Keep the outline practical and achievable for a solo developer or small team working on Replit.`;
+
+    const llmResponse = await ai.generate({
+      model: 'googleai/gemini-1.5-flash',
+      prompt,
     });
 
     // Parse the response to extract target audience and project outline
