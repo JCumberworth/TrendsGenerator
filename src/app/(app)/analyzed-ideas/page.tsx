@@ -1,7 +1,4 @@
-Implementing prompt-based editing for the project outline.
-```
 
-```typescript
 "use client";
 
 import { useState, useEffect } from 'react';
